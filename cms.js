@@ -34,6 +34,7 @@ if (!run) {
         usergrab: false,
         workfade: false,
         lights: false,
+        delmsg: false,
         confirmunban: false,
         confirmunmute: false,
         updubhover: false,
@@ -122,6 +123,10 @@ if (!run) {
                             '</li>',
                             '<li onclick="functions.chatmode();" class="main_content_li main_content_feature chatmode">',
                                 '<p class="main_content_p">Chat Mode</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.deletemsg();" class="main_content_li main_content_feature deletemsg">',
+                                '<p class="main_content_p">Hide Deleted Messages</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
                             '<li onclick="functions.roomcss();" class="main_content_li main_content_feature roomcss">',
@@ -340,10 +345,21 @@ if (!run) {
             $('#user-grab').remove();
         },
         deletemsg: function() {
-            setInterval(function() {
-                $('.deleted').hide();
-                $('.deleted-message').hide();
-            }, 5000);
+            if (!options.delmsgtoggle) {
+                options.delmsgtoggle = true;
+                functions.on('.deletemsg');
+                functions.storage('delmsg', 'true');
+                setInterval(function() {
+                    if (options.delmsgtoggle) {
+                        $('.deleted-message').hide();
+                    }
+                }, 2000);
+            } else {
+                options.delmsgtoggle = false;
+                functions.off('.deletemsg');
+                functions.storage('delmsg', 'false');
+                $('.deleted').show();
+            }
         },
         cssloading: function() {
             if(localStorage.getItem('ccss') !==null) {
@@ -778,7 +794,6 @@ if (!run) {
         $('document').ready(functions.bgloading);
         $('document').ready(functions.css);
 
-        functions.deletemsg();
         functions.hovertogglegrab();
         functions.hovertoggledowndub();
         functions.hovertoggleupdub();
