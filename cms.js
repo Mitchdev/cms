@@ -1,3 +1,4 @@
+
 /*
     LICENSED UNDER THE Q PUBLIC LICENSE version 1.0;
     Copyright (C) 1999-2005 Trolltech AS, Norway.
@@ -35,6 +36,9 @@ if (!run) {
         lights: false,
         confirmunban: false,
         confirmunmute: false,
+        updubhover: false,
+        downdubhover: false,
+        grabhover: false,
     };
 
     var functions = {
@@ -269,7 +273,6 @@ if (!run) {
             });
         },
         hovertoggledowndub: function() {
-            var downdubhover = false;
             $('.dubdown').hover(function() {
                 downdubhover = true;
                 if (downdubhover) {
@@ -293,7 +296,6 @@ if (!run) {
             $('#user-downdub').remove();
         },
         hovertoggleupdub: function() {
-            var updubhover = false;
             $('.dubup').hover(function() {
                 updubhover = true;
                 if (updubhover) {
@@ -317,7 +319,6 @@ if (!run) {
             $('#user-updub').remove();
         },
         hovertogglegrab: function() {
-            var grabhover = false;
             $('.add-to-playlist-button').hover(function() {
                 grabhover = true;
                 if (grabhover) {
@@ -720,24 +721,6 @@ if (!run) {
         }
     };
 
-    Dubtrack.Events.bind("realtime:chat-message", functions.commands);
-    Dubtrack.Events.bind('realtime:user-mute', functions.Muted);
-    Dubtrack.Events.bind('realtime:user-unmute', functions.Unmuted);
-    Dubtrack.Events.bind("realtime:room_playlist-update", functions.updateupdublist);
-    Dubtrack.Events.bind("realtime:room_playlist-update", functions.updatedowndublist);
-    Dubtrack.Events.bind("realtime:room_playlist-update", functions.updategrablist);
-    Dubtrack.Events.bind('realtime:room_playlist-dub', functions.updublist);
-    Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
-    Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
-
-    $('document').ready(functions.cssloading);
-    $('document').ready(functions.bgloading);
-    $('document').ready(functions.css);
-
-    functions.deletemsg();
-    functions.hovertogglegrab();
-    functions.hovertoggledowndub();
-    functions.hovertoggleupdub();
     functions.mainmenu();
 
     setTimeout(function() {
@@ -780,6 +763,25 @@ if (!run) {
         if (localStorage.getItem('css') === 'true') {
             functions.roomcss();
         }
+
+        Dubtrack.Events.bind("realtime:chat-message", functions.commands);
+        Dubtrack.Events.bind('realtime:user-mute', functions.Muted);
+        Dubtrack.Events.bind('realtime:user-unmute', functions.Unmuted);
+        Dubtrack.Events.bind("realtime:room_playlist-update", functions.updateupdublist);
+        Dubtrack.Events.bind("realtime:room_playlist-update", functions.updatedowndublist);
+        Dubtrack.Events.bind("realtime:room_playlist-update", functions.updategrablist);
+        Dubtrack.Events.bind('realtime:room_playlist-dub', functions.updublist);
+        Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
+        Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
+
+        $('document').ready(functions.cssloading);
+        $('document').ready(functions.bgloading);
+        $('document').ready(functions.css);
+
+        functions.deletemsg();
+        functions.hovertogglegrab();
+        functions.hovertoggledowndub();
+        functions.hovertoggleupdub();
     }, 4000);
 } else {
     $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+'!<br>CMS is already running.</li>');
