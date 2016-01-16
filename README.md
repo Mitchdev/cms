@@ -10,6 +10,7 @@ Team
 -------------
 How to use
 ---
+- Instructions on [website](https://mitchdev.net/cms/)
 
 -------------
 Links
