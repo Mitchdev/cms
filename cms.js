@@ -776,9 +776,6 @@ if (!run) {
         if (localStorage.getItem('css') === 'true') {
             functions.roomcss();
         }
-        setTimeout(function() {
-            $('.icon-camera').remove();
-        }, 1500);
     }, 4000);
 } else {
     $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+'!<br>CMS is already running.</li>');
