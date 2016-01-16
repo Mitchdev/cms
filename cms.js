@@ -18,6 +18,7 @@
 var run;
 if (!run) {
     run = true;
+    var help = '/help - For help about cms!'
     var motd = 'Commands?';
     var version = 'Version - 10.3';
     var options = {
@@ -109,7 +110,7 @@ if (!run) {
                 '<div class="main_content">',
                     '<div class="headerbox" onclick="functions.menufade();">',
                         '<span class="main_content_ver"><center>CMS</center></span>',
-                        '<span class="main_content_version"><center>'+version+'<br>'+motd+'</center></span>',
+                        '<span class="main_content_version"><center>'+version+'<br>'+motd+'<br><br>'+help+'</center></span>',
                     '</div>',
                     '<ul class="main_content_ul">',
                         '<ul>',
@@ -613,7 +614,30 @@ if (!run) {
                         '<span>CMS HELP</span>',
                             '<br>',
                             '<br>',
-                        '<span>No help is needed!</span>',
+                        '<span>Autovote - Clicks Updub for you</span>',
+                            '<br>',
+                        '<span>Workmode - Hides video and chat</span>',
+                            '<br>',
+                        '<span>Chatmode - Hides video</span>',
+                            '<br>',
+                        '<span>Hide Deleted Messages - Hides messages that have been deleted</span>',
+                            '<br>',
+                        '<span>Community Theme - Custom css the room sets</span>',
+                            '<br>',
+                        '<span>Join Message - Display who joined in chat</span>',
+                            '<br>',
+                        '<span>Leave Message - Displays who left in chat</span>',
+                            '<br>',
+                        '<span>Grab Message - Displays who grabed a song in chat</span>',
+                            '<br>',
+                        '<span>Up Dub Message - Displays who updubed a song in chat</span>',
+                            '<br>',
+                        '<span>Custom Background - Paste in a link for a custom background</span>',
+                            '<br>',
+                        '<span>Custom Css - Paste in a link for a custom css (theme)</span>',
+                            '<br>',
+                            '<br>',
+                        '<span>/commands - A list of commands</span>',
                             '<br>',
                     '</li>'
                 ].join('');
@@ -630,6 +654,8 @@ if (!run) {
                         '<span>/help - Displayes Help Message</span>',
                             '<br>',
                         '<span>/whois [username, uuid] - Displays Info About User</span>',
+                            '<br>',
+                        '<span>/whoami - Displays Info About You</span>',
                             '<br>',
                     '</li>'
                 ].join('');
