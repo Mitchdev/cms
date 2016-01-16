@@ -5,7 +5,7 @@
 -------------
 Team
 ---
-- [Mitch](https://mitchdev.net)
+- [Mitch - Owner, Developer](https://mitchdev.net)
 
 -------------
 How to use
