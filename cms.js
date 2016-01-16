@@ -2,9 +2,7 @@
     LICENSED UNDER THE Q PUBLIC LICENSE version 1.0;
     Copyright (C) 1999-2005 Trolltech AS, Norway.
     You may obtain a copy of the License at
-
         https://opensource.org/licenses/QPL-1.0
-
     The Software and this license document are provided 
     AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE 
     WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR 
@@ -643,7 +641,8 @@ if (!run) {
                 var user = i.username;
                 var uuid = i._id;
                 var locale = i.userInfo.locale;
-                var created = ''+i.created+''.substr(0, cr.length-3); 
+                var cr = ''+i.created+'';
+                var created = cr.substr(0, cr.length-3); 
                 var rrole = 'user';
                 var grole = 'user';
                 var muted = 'false';
@@ -680,7 +679,12 @@ if (!run) {
                 } else if (Dubtrack.room.users.getIfResidentDJ(''+uuid+'')) {
                     rrole = 'rdj';
                 }
-
+                if (Dubtrack.room.users.getIfmuted(''+uuid+'')) {
+                    muted = 'true';
+                }
+                if (Dubtrack.helpers.isDubtrackAdmin(''+uuid+'')) {
+                    grole = 'admin';
+                }
                 var whois = [
                     '<li class="system">',
                         '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
@@ -698,8 +702,8 @@ if (!run) {
                             '<br>',
                         '<span>Locale: '+locale+'</span>',
                             '<br>',
-                        //'<span>Role: '+grole+'</span>',
-                        //    '<br>',
+                        '<span>Role: '+grole+'</span>',
+                            '<br>',
                             '<br>',
                         '<span>ROOM INFO</span>',
                             '<br>',
@@ -707,8 +711,8 @@ if (!run) {
                             '<br>',
                         '<span>Dubs: '+dubs+'</span>',
                             '<br>',
-                        //'<span>Is Muted: '+muted+'</span>',
-                        //    '<br>',
+                        '<span>Is Muted: '+muted+'</span>',
+                            '<br>',
                     '</li>'
                 ].join('');
                 $('.chat-main').append(whois);
