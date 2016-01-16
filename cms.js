@@ -1,3 +1,21 @@
+/*
+    LICENSED UNDER THE Q PUBLIC LICENSE version 1.0;
+    Copyright (C) 1999-2005 Trolltech AS, Norway.
+    You may obtain a copy of the License at
+
+        https://opensource.org/licenses/QPL-1.0
+
+    The Software and this license document are provided 
+    AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE 
+    WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR 
+    A PARTICULAR PURPOSE.
+    This license is governed by the Laws of Norway. 
+    Disputes shall be settled by Oslo City Court.
+    Parts of this code has been borrowed and rewritten 
+    with permission from the owners of the dubx project 
+    (https://github.com/sinfulBA/DubX-Script)
+*/
+
 var run;
 if (!run) {
     run = true;
