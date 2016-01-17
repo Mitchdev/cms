@@ -57,7 +57,7 @@ if (!run) {
             '<div class="grablist" style="display: none;">',
                     '<center>',
                         '<div class="grablistheader" style="margin-top: 10px;">',
-                            '<h1>Grab List</h1>',
+                            '<h1>Grabs</h1>',
                         '</div>',
                         '<div class="grablistpeople" style="margin-top: 10px;margin-bottom:10px;">',
                         '</div>',
@@ -68,7 +68,7 @@ if (!run) {
                 '<div class="updublist" style="display: none;">',
                     '<center>',
                         '<div class="updublistheader" style="margin-top: 10px;">',
-                            '<h1>Updub List</h1>',
+                            '<h1>Updubs</h1>',
                         '</div>',
                         '<div class="updublistpeople" style="margin-top: 10px;margin-bottom:10px;">',
                         '</div>',
@@ -79,7 +79,7 @@ if (!run) {
                 '<div class="downdublist" style="display: none;">',
                     '<center>',
                         '<div class="downdublistheader" style="margin-top: 10px;">',
-                            '<h1>Downdub List</h1>',
+                            '<h1>Downdubs</h1>',
                         '</div>',
                         '<div class="downdublistpeople" style="margin-top: 10px;margin-bottom:10px;">',
                         '</div>',
@@ -152,7 +152,7 @@ if (!run) {
                             '</li>',
                             '<li onclick="functions.bginput();" class="main_content_li main_content_feature backgroudme">',
                                 '<p class="main_content_p">Custom Background</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Click Edit</span></p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
                             '</li>',
                             '<div class="INPUT BG">',
                                 '<li class="inbg">',
@@ -161,7 +161,7 @@ if (!run) {
                             '</div>',
                             '<li onclick="functions.cssinput();" class="main_content_li main_content_feature mycss">',
                                 '<p class="main_content_p">Custom CSS</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Click Edit</span></p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
                             '</li>',
                             '<div class="INPUT CSS">',
                                 '<li class="incss">',
@@ -507,7 +507,7 @@ if (!run) {
             }
         },
         Euserjoin: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userjoin">@'+e.user.username+' joined the room</span></div></li>');
+            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userjoin">@'+e.user.username+' just joined</span></div></li>');
         },
         userleave: function() {
             if(!options.userleave) {
@@ -523,7 +523,7 @@ if (!run) {
             }
         },
         Euserleave: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">@'+e.user.username+' left the room</span></div></li>');
+            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">@'+e.user.username+' just left</span></div></li>');
         },
         usergrab: function() {
             if (!options.usergrab) {
@@ -539,7 +539,7 @@ if (!run) {
             }
         },
         Eusergrab: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-usergrab">@'+e.user.username+' grabed the song</span></div></li>');
+            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-usergrab">@'+e.user.username+' grabbed this song</span></div></li>');
         },
         userudub: function() {
             if(!options.userudub) {
@@ -556,7 +556,7 @@ if (!run) {
         },
         Euserudub: function(e) {
             if (e.dubtype === "updub") {
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userudub">@'+e.user.username+' up dubed the song</span></div></li>');
+                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userudub">@'+e.user.username+' updubbed this song</span></div></li>');
             }
         },
         userddub: function() {
@@ -578,25 +578,25 @@ if (!run) {
                 Dubtrack.Events.unbind('realtime:room_playlist-dub', functions.Euserddub);
             }
         },
+        Euserddub: function(e) {
+            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+                if (e.dubtype === "downdub") {
+                    $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userddub">@'+e.user.username+' downdubbed this song</span></div></li>');
+                }
+            }
+        },
         Muted: function(e) {
             if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">@'+muted+' was muted by @'+username+'</span></div></li>');
+                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-mute">@'+muted+' was muted by @'+username+'</span></div></li>');
             }
         },
         Unmuted: function(e) {
             if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">@'+muted+' was unmuted by @'+username+'</span></div></li>');
-            }
-        },
-        Euserddub: function(e) {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                if (e.dubtype === "downdub") {
-                    $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userddub">@'+e.user.username+' down dubed the song</span></div></li>');
-                }
+                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userunmute">@'+muted+' was unmuted by @'+username+'</span></div></li>');
             }
         },
         cdel: function(e) {
@@ -614,7 +614,7 @@ if (!run) {
                         '<span>CMS HELP</span>',
                             '<br>',
                             '<br>',
-                        '<span>Autovote - Clicks Updub for you</span>',
+                        '<span>Autovote - Automatically updubs songs</span>',
                             '<br>',
                         '<span>Workmode - Hides video and chat</span>',
                             '<br>',
@@ -622,22 +622,22 @@ if (!run) {
                             '<br>',
                         '<span>Hide Deleted Messages - Hides messages that have been deleted</span>',
                             '<br>',
-                        '<span>Community Theme - Custom css the room sets</span>',
+                        '<span>Community Theme - Enable the room\'s custom theme</span>',
                             '<br>',
-                        '<span>Join Message - Display who joined in chat</span>',
+                        '<span>Join Message - Displays user join notifications in chat</span>',
                             '<br>',
-                        '<span>Leave Message - Displays who left in chat</span>',
+                        '<span>Leave Message - Displays user leave notifications in chat</span>',
                             '<br>',
-                        '<span>Grab Message - Displays who grabed a song in chat</span>',
+                        '<span>Grab Message - Displays grab notifications in chat</span>',
                             '<br>',
-                        '<span>Up Dub Message - Displays who updubed a song in chat</span>',
+                        '<span>Updub Message - Displays updub notifications in chat</span>',
                             '<br>',
-                        '<span>Custom Background - Paste in a link for a custom background</span>',
+                        '<span>Custom Background - Paste an image link for a custom background</span>',
                             '<br>',
-                        '<span>Custom Css - Paste in a link for a custom css (theme)</span>',
+                        '<span>Custom Css - Paste a .css link for a custom theme</span>',
                             '<br>',
                             '<br>',
-                        '<span>/commands - A list of commands</span>',
+                        '<span>/commands - Displays a list of CMS chat commands</span>',
                             '<br>',
                     '</li>'
                 ].join('');
@@ -651,11 +651,11 @@ if (!run) {
                         '<span>CMS COMMANDS</span>',
                             '<br>',
                             '<br>',
-                        '<span>/help - Displayes Help Message</span>',
+                        '<span>/help - Displays help message</span>',
                             '<br>',
-                        '<span>/whois [username, uuid] - Displays Info About User</span>',
+                        '<span>/whois [username/userid] - Displays info about a user</span>',
                             '<br>',
-                        '<span>/whoami - Displays Info About You</span>',
+                        '<span>/whoami - Displays your info</span>',
                             '<br>',
                     '</li>'
                 ].join('');
@@ -767,7 +767,7 @@ if (!run) {
 
     setTimeout(function() {
         if (Dubtrack.session.get('username') === 'mrsuffocate') {
-            $('body').append('<div class="pizza" style="background: url(http://45.media.tumblr.com/04880a380a9777427066c84b197213fe/tumblr_nip4kjNx6T1tbq024o1_540.gif);"></div>');
+            $('body').append('<div class="pizza" style="background: url(http://i.imgur.com/A0qhlG2.gif);"></div>');
         }
         if (localStorage.getItem('bg') !== null || localStorage.getItem('ccss') !== ' ') {
             var bg = localStorage.getItem('bg');
@@ -825,5 +825,5 @@ if (!run) {
         functions.hovertoggleupdub();
     }, 4000);
 } else {
-    $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+'!<br>CMS is already running.</li>');
+    $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+',<br>CMS is already running.</li>');
 }
