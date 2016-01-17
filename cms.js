@@ -782,6 +782,7 @@ if (!run) {
             $('.inbg').append('<textarea class="input bg" placeholder="https://example.com/example.css"></textarea>','<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>');
         }
         if (localStorage.getItem('delmsg') === 'true') {
+            functions.deletemsg();
             setInterval(function() {
                 if (options.delmsgtoggle) {
                     $('.deleted-message').hide();
