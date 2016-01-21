@@ -18,7 +18,7 @@
 var run;
 if (!run) {
     run = true;
-    var help = '/help - For help about cms!'
+    var help = '/help - For help about cms!';
     var motd = 'Commands?';
     var version = 'Version - 10.3';
     var options = {
@@ -208,6 +208,7 @@ if (!run) {
                 }
             }, 4000);
             setTimeout(function() {
+                $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" class="eta">ETA</span>');
                 $(dtapi).insertAfter('#main-menu-left .navigate.room-active-link');
                 $(ebtn).insertAfter('#main-menu-left .navigate.lobby-link');
                 $(btn).insertAfter('.player_header .room-info-display');
@@ -661,17 +662,33 @@ if (!run) {
                 ].join('');
                 $('.chat-main').append(commands);
             }
-            if(message.indexOf("/whois ") === 0 && id === user) {
+            if (message.indexOf("/whois ") === 0 && id === user) {
                 message.replace(/( [A-Za-z0-9_.]+)/g, function(str) {
                     var name = ''+str+'';
                     var username = name.substr(1);
                     functions.who(username);
                 });
             }
-            if(message.indexOf("/whoami") >-1 && id === user) {
+            if (message.indexOf("/whoami") >-1 && id === user) {
                 var username = Dubtrack.session.get('username');
                 functions.who(username);
             }
+            if (message.indexOf("/eta") >-1 && id === user) {
+                var t = 4;
+                var ct = parseInt($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
+                var bd = parseInt($('.queue-position').text());
+                var bt = (bd * t - t) + ct;
+                functions.eta(bt);
+            }
+        },
+        etaclick: function() {
+            $('.eta').click(function() {
+                var t = 4;
+                var ct = parseInt($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
+                var bd = parseInt($('.queue-position').text());
+                var bt = (bd * t - t) + ct;
+                functions.eta(bt);
+            });
         },
         who: function(username) {
             $.ajax({
@@ -760,6 +777,13 @@ if (!run) {
                 ].join('');
                 $('.chat-main').append(whois);
             });
+        },
+        eta: function(e) {
+            if (e >= 0) {
+                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><span>ETA: '+e+' Minutes</span></li>');
+            } else {
+                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><span>ETA: You\'re not in the queue</span></li>');
+            }
         }
     };
 
@@ -825,6 +849,7 @@ if (!run) {
         $('document').ready(functions.bgloading);
         $('document').ready(functions.css);
 
+        functions.etaclick();
         functions.hovertogglegrab();
         functions.hovertoggledowndub();
         functions.hovertoggleupdub();
