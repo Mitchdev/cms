@@ -109,7 +109,7 @@ if (!run) {
                 '</li>'
             ].join('');
             var mainmenu = [
-                '<link rel="stylesheet" type="text/css" href="https://mitchdev.net/CMS/css/main.css">',
+                '<link rel="stylesheet" type="text/css" href="https://rawgit.com/Mitchdev/CMS/master/main.css">',
                 '<div class="main_content">',
                     '<div class="headerbox" onclick="functions.menufade();">',
                         '<span class="main_content_ver"><center>CMS</center></span>',
