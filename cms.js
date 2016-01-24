@@ -20,7 +20,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Commands?';
-    var version = 'Version - 10.3';
+    var version = 'Version - 10.5';
     var options = {
         autovote: false,
         workmode: false,
