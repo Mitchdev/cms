@@ -36,6 +36,9 @@ if (!run) {
         workfade: false,
         lights: false,
         delmsg: false,
+        delm: false,
+        clearchat: false,
+        cc: false,
         confirmunban: false,
         confirmunmute: false,
         updubhover: false,
@@ -116,6 +119,10 @@ if (!run) {
                         '<ul>',
                             '<li onclick="functions.autovote();" class="main_content_li main_content_feature autovote">',
                                 '<p class="main_content_p">Autovote</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.clearchat();" class="main_content_li main_content_feature clearchat">',
+                                '<p class="main_content_p">Auto Clear Chat</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
                             '<li onclick="functions.workmode();" class="main_content_li main_content_feature workmode">',
@@ -281,13 +288,13 @@ if (!run) {
         },
         hovertoggledowndub: function() {
             $('.dubdown').hover(function() {
-                downdubhover = true;
-                if (downdubhover) {
+                options.downdubhover = true;
+                if (options.downdubhover) {
                     $('.downdublist').slideToggle("slow");
                 }
             });
             $('.dubdown').mouseout(function() {
-                downdubhover = false;
+                options.downdubhover = false;
             });
         },
         downdublist: function(e) {
@@ -304,13 +311,13 @@ if (!run) {
         },
         hovertoggleupdub: function() {
             $('.dubup').hover(function() {
-                updubhover = true;
-                if (updubhover) {
+                options.updubhover = true;
+                if (options.updubhover) {
                     $('.updublist').slideToggle("slow");
                 }
             });
             $('.dubup').mouseout(function() {
-                updubhover = false;
+                options.updubhover = false;
             });
         },
         updublist: function(e) {
@@ -327,13 +334,13 @@ if (!run) {
         },
         hovertogglegrab: function() {
             $('.add-to-playlist-button').hover(function() {
-                grabhover = true;
-                if (grabhover) {
+                options.grabhover = true;
+                if (options.grabhover) {
                     $('.grablist').slideToggle("slow");
                 }
             });
             $('.add-to-playlist-button').mouseout(function() {
-                grabhover = false;
+                options.grabhover = false;
             });
         },
         grablist: function(e) {
@@ -350,17 +357,24 @@ if (!run) {
             if (!options.delmsgtoggle) {
                 options.delmsgtoggle = true;
                 functions.on('.deletemsg');
+                options.delm = true;
+                functions.delm();
                 functions.storage('delmsg', 'true');
-                setInterval(function() {
-                    if (options.delmsgtoggle) {
-                        $('.deleted-message').hide();
-                    }
-                }, 2000);
             } else {
                 options.delmsgtoggle = false;
                 functions.off('.deletemsg');
                 functions.storage('delmsg', 'false');
-                $('.deleted').show();
+                options.delm = false;
+                $('.deleted-message').show();
+            }
+        },
+        delm: function() {
+            if (options.delm) {
+                setInterval(function() {
+                    if (options.delm) {
+                        $('.deleted-message').hide();
+                    }
+                }, 2000);
             }
         },
         cssloading: function() {
@@ -600,6 +614,30 @@ if (!run) {
                 $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userunmute">@'+muted+' was unmuted by @'+username+'</span></div></li>');
             }
         },
+        clearchat: function() {
+            if (!options.clearchat) {
+                options.clearchat = true;
+                functions.on('.clearchat');
+                functions.storage('clearchat','true');
+                options.cc = true;
+                functions.cc();
+            } else {
+                options.clearchat = false;
+                functions.off('.clearchat');
+                functions.storage('clearchat','false');
+                options.cc = false;
+            }
+        },
+        cc: function() {
+            if (options.cc) {
+                setInterval(function() {
+                    $('.clearChatToggle').click();
+                    setTimeout(function() {
+                        $('.chat-main').append('<li class="chat-system-loading">Automatically by cms!</li>');
+                    }, 1000);
+                }, 1800000);
+            }
+        },
         cdel: function(e) {
             $(e).parent('li')[0].remove();
         },
@@ -616,6 +654,8 @@ if (!run) {
                             '<br>',
                             '<br>',
                         '<span>Autovote - Automatically updubs songs</span>',
+                            '<br>',
+                        '<span>Auto Clear Chat - Automatically clears the chat every 30mins</span>',
                             '<br>',
                         '<span>Workmode - Hides video and chat</span>',
                             '<br>',
@@ -807,11 +847,10 @@ if (!run) {
         }
         if (localStorage.getItem('delmsg') === 'true') {
             functions.deletemsg();
-            setInterval(function() {
-                if (options.delmsgtoggle) {
-                    $('.deleted-message').hide();
-                }
-            }, 2000);
+            //$('.deleted-message').hide();
+        }
+        if (localStorage.getItem('clearchat') === 'true') {
+            functions.clearchat();
         }
         if (localStorage.getItem('userjoin') === 'true') {
             functions.userjoin();
