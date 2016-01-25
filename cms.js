@@ -20,7 +20,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Commands?';
-    var version = 'Version - 10.5';
+    var version = 'Version - 10.7';
     var options = {
         autovote: false,
         workmode: false,
@@ -818,6 +818,36 @@ if (!run) {
             } else {
                 $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><span>ETA: You\'re not in the queue</span></li>');
             }
+        },
+        chatlog: function(e) {
+            if (Dubtrack.session.get('username') === 'mitch') {
+                var username = e.user.username;
+                var userid = e.user.userInfo.userid;
+                var msg = e.message;
+                var c = ''+e.time+'';
+                var cr = c.substr(0, c.length-3); 
+                var d = new Date(cr * 1000),
+                    yyyy = d.getFullYear(),
+                    mm = ('0' + (d.getMonth() + 1)).slice(-2),
+                    dd = ('0' + d.getDate()).slice(-2),
+                    hh = d.getHours(),
+                    h = hh,
+                    ampm = 'AM',
+                    min = ('0' + d.getMinutes()).slice(-2),
+                    time;   
+                if (hh > 12) {
+                    h = hh - 12;
+                    ampm = 'PM';
+                } else if (hh === 12) {
+                    h = 12;
+                    ampm = 'PM';
+                } else if (hh === 0) {
+                    h = 12;
+                }
+                time = mm+'/'+dd+'/'+yyyy+' - '+hh+':'+min+ampm;
+                console.info('%cNAME: '+username+' | ID: '+userid+' | TIME: '+time, 'font-weight: 600;'+'color: #aaaaac;');
+                console.log('%cMESSAGE: "'+msg+'"', 'font-size: 1.1em;');
+            }
         }
     };
 
@@ -841,7 +871,9 @@ if (!run) {
         }
         if (localStorage.getItem('delmsg') === 'true') {
             functions.deletemsg();
-            //$('.deleted-message').hide();
+            setTimeout(function({
+                $('.deleted-message').hide();
+            }, 5000);
         }
         if (localStorage.getItem('clearchat') === 'true') {
             functions.clearchat();
@@ -868,6 +900,7 @@ if (!run) {
             functions.roomcss();
         }
 
+        Dubtrack.Events.bind('realtime:chat-message', functions.chatlog);
         Dubtrack.Events.bind("realtime:chat-message", functions.commands);
         Dubtrack.Events.bind('realtime:user-mute', functions.Muted);
         Dubtrack.Events.bind('realtime:user-unmute', functions.Unmuted);
