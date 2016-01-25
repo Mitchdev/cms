@@ -302,6 +302,7 @@ if (!run) {
             setTimeout(function() {
                 if (e.dubtype === "downdub") {
                     $('.dd-user-'+user+'').remove();
+                    $('.ud-user-'+user+'').remove();
                     $('.downdublistpeople').append('<p id="user-downdub" class="dd-user-'+user+'">@'+user+'</p>');
                 }
             }, 1000);
@@ -325,6 +326,7 @@ if (!run) {
             setTimeout(function() {
                 if (e.dubtype === "updub") {
                     $('.ud-user-'+user+'').remove();
+                    $('.dd-user-'+user+'').remove();
                     $('.updublistpeople').append('<p id="user-updub" class="ud-user-'+user+'">@'+user+'</p>');
                 }
             }, 1000);
