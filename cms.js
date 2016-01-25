@@ -765,7 +765,7 @@ if (!run) {
                 } else if (hh === 0) {
                     h = 12;
                 }
-                time = mm+'/'+dd+'/'+yyyy+' - '+hh+':'+min+ampm;
+                time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
 
                 if (Dubtrack.room.users.getIfOwner(''+uuid+'')) {
                     rrole = 'co-owner';
@@ -844,7 +844,7 @@ if (!run) {
                 } else if (hh === 0) {
                     h = 12;
                 }
-                time = mm+'/'+dd+'/'+yyyy+' - '+hh+':'+min+ampm;
+                time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
                 console.info('%cNAME: '+username+' | ID: '+userid+' | TIME: '+time, 'font-weight: 600;'+'color: #aaaaac;');
                 console.log('%cMESSAGE: "'+msg+'"', 'font-size: 1.1em;');
             }
