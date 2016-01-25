@@ -871,9 +871,7 @@ if (!run) {
         }
         if (localStorage.getItem('delmsg') === 'true') {
             functions.deletemsg();
-            setTimeout(function({
-                $('.deleted-message').hide();
-            }, 5000);
+            //$('.deleted-message').hide();
         }
         if (localStorage.getItem('clearchat') === 'true') {
             functions.clearchat();
