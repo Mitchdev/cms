@@ -765,7 +765,7 @@ if (!run) {
                 } else if (hh === 0) {
                     h = 12;
                 }
-                time = yyyy+'-'+mm+'-'+dd+', '+hh+':'+min+' '+ampm;
+                time = mm+'/'+dd+'/'+yyyy+' - '+hh+':'+min+ampm;
 
                 if (Dubtrack.room.users.getIfOwner(''+uuid+'')) {
                     rrole = 'co-owner';
