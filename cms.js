@@ -745,7 +745,6 @@ if (!run) {
                 var created = cr.substr(0, cr.length-3); 
                 var rrole = 'user';
                 var grole = 'user';
-                var muted = 'false';
                 var dubs = Dubtrack.room.users.getDubs(''+uuid+'');
 
                 var d = new Date(created * 1000),
@@ -779,9 +778,6 @@ if (!run) {
                 } else if (Dubtrack.room.users.getIfResidentDJ(''+uuid+'')) {
                     rrole = 'rdj';
                 }
-                if (Dubtrack.room.users.getIfmuted(''+uuid+'')) {
-                    muted = 'true';
-                }
                 if (Dubtrack.helpers.isDubtrackAdmin(''+uuid+'')) {
                     grole = 'admin';
                 }
@@ -810,8 +806,6 @@ if (!run) {
                         '<span>Role: '+rrole+'</span>',
                             '<br>',
                         '<span>Dubs: '+dubs+'</span>',
-                            '<br>',
-                        '<span>Is Muted: '+muted+'</span>',
                             '<br>',
                     '</li>'
                 ].join('');
