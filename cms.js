@@ -19,8 +19,8 @@ var run;
 if (!run) {
     run = true;
     var help = '/help - For help about cms!';
-    var motd = 'Commands?';
-    var version = 'Version - 10.7';
+    var motd = 'Bug Fixes';
+    var version = 'Version - 10.9';
     var options = {
         autovote: false,
         workmode: false,
