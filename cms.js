@@ -643,6 +643,9 @@ if (!run) {
         cdel: function(e) {
             $(e).parent('li')[0].remove();
         },
+        stb: function() {
+            $('#new-messages-counter').click();
+        },
         commands: function(e) {
             var message = e.message;
             var id = Dubtrack.session.id;
@@ -685,6 +688,7 @@ if (!run) {
                     '</li>'
                 ].join('');
                 $('.chat-main').append(help);
+                functions.stb();
             }
             if (message.indexOf('/commands') >-1 && id === user) {
                 var commands = [
@@ -703,6 +707,7 @@ if (!run) {
                     '</li>'
                 ].join('');
                 $('.chat-main').append(commands);
+                functions.stb();
             }
             if (message.indexOf("/whois ") === 0 && id === user) {
                 message.replace(/( [A-Za-z0-9_.]+)/g, function(str) {
@@ -812,6 +817,7 @@ if (!run) {
                     '</li>'
                 ].join('');
                 $('.chat-main').append(whois);
+                functions.stb();
             });
         },
         eta: function(e) {
@@ -820,6 +826,7 @@ if (!run) {
             } else {
                 $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><span>ETA: You\'re not in the queue</span></li>');
             }
+            functions.stb();
         },
         chatlog: function(e) {
             if (Dubtrack.session.get('username') === 'mitch') {
