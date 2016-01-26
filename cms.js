@@ -19,8 +19,8 @@ var run;
 if (!run) {
     run = true;
     var help = '/help - For help about cms!';
-    var motd = 'Bug Fixes';
-    var version = 'Version - 10.9';
+    var motd = 'Commands?';
+    var version = 'Version - 10.7';
     var options = {
         autovote: false,
         workmode: false,
@@ -203,6 +203,7 @@ if (!run) {
             ].join('');
             setTimeout(function() {
                 $('.chat-main').append(welcome);
+                functions.stb();
                 $(settingbtn).insertAfter('.chat-option-buttons-sound');
             }, 5000);
             setTimeout(function() {
@@ -525,6 +526,7 @@ if (!run) {
         },
         Euserjoin: function(e) {
             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userjoin">@'+e.user.username+' just joined</span></div></li>');
+            functions.stb();
         },
         userleave: function() {
             if(!options.userleave) {
@@ -541,6 +543,7 @@ if (!run) {
         },
         Euserleave: function(e) {
             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">@'+e.user.username+' just left</span></div></li>');
+            functions.stb();
         },
         usergrab: function() {
             if (!options.usergrab) {
@@ -557,6 +560,7 @@ if (!run) {
         },
         Eusergrab: function(e) {
             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-usergrab">@'+e.user.username+' grabbed this song</span></div></li>');
+            functions.stb();
         },
         userudub: function() {
             if(!options.userudub) {
@@ -574,6 +578,7 @@ if (!run) {
         Euserudub: function(e) {
             if (e.dubtype === "updub") {
                 $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userudub">@'+e.user.username+' updubbed this song</span></div></li>');
+                functions.stb();
             }
         },
         userddub: function() {
@@ -599,6 +604,7 @@ if (!run) {
             if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                 if (e.dubtype === "downdub") {
                     $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userddub">@'+e.user.username+' downdubbed this song</span></div></li>');
+                    functions.stb();
                 }
             }
         },
@@ -607,6 +613,7 @@ if (!run) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
                 $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-mute">@'+muted+' was muted by @'+username+'</span></div></li>');
+                functions.stb();
             }
         },
         Unmuted: function(e) {
@@ -614,6 +621,7 @@ if (!run) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
                 $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userunmute">@'+muted+' was unmuted by @'+username+'</span></div></li>');
+                functions.stb();
             }
         },
         clearchat: function() {
@@ -856,6 +864,7 @@ if (!run) {
                 time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
                 console.info('%cNAME: '+username+' | ID: '+userid+' | TIME: '+time, 'font-weight: 600;'+'color: #aaaaac;');
                 console.log('%cMESSAGE: "'+msg+'"', 'font-size: 1.1em;');
+                console.log(' ');
             }
         }
     };
