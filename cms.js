@@ -3,7 +3,7 @@
     LICENSED UNDER THE Q PUBLIC LICENSE version 1.0;
     Copyright (C) 1999-2005 Trolltech AS, Norway.
     You may obtain a copy of the License at
-        https://opensource.org/licenses/QPL-1.0
+    https://opensource.org/licenses/QPL-1.0
     The Software and this license document are provided 
     AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE 
     WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR 
@@ -20,7 +20,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Commands?';
-    var version = 'Version - 10.7';
+    var version = 'Version - 10.9';
     var options = {
         autovote: false,
         workmode: false,
@@ -100,12 +100,16 @@ if (!run) {
                 '</div>'
             ].join('');
             var welcome = [
-                '<li class="system">',
-                    '<span>Welcome back '+Dubtrack.session.get('username')+'!</span>',
-                        '<br>',
-                    '<span>CMS '+version+'</span>',
-                        '<br>',
-                    '<span>'+motd+'</span>',
+                '<li class="chat-welcome-message" style="text-align: center; color: #CCC;"><br><br><br>',
+                    '<span>Welcome '+Dubtrack.session.get('username')+'!</span><br>',
+                    '<span>CMS '+version+'</span><br>',
+                    '<span>'+motd+'</span><br><br>',
+                    '<span>For Bugs and Suggestions Please Go To:</span><br>',
+                    '<span>',
+                        '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_right.png" title=":point_right:" alt=":point_right:" align="absmiddle"></img>',
+                        '<a href="https://github.com/mitchdev/cms"> Our Github </a>',
+                        '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_left.png" title=":point_left:" alt=":point_left:" align="absmiddle"></img>',
+                    '</span><br><br><br>',
                 '</li>'
             ].join('');
             var mainmenu = [
