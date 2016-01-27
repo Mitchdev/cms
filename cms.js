@@ -1,4 +1,3 @@
-
 /*
     LICENSED UNDER THE Q PUBLIC LICENSE version 1.0;
     Copyright (C) 1999-2005 Trolltech AS, Norway.
@@ -19,8 +18,8 @@ var run;
 if (!run) {
     run = true;
     var help = '/help - For help about cms!';
-    var motd = 'Commands?';
-    var version = 'Version - 10.9';
+    var motd = 'Custom Mentions!';
+    var version = 'Version - 11.2';
     var options = {
         autovote: false,
         workmode: false,
@@ -39,6 +38,7 @@ if (!run) {
         delm: false,
         clearchat: false,
         cc: false,
+        cmen: false,
         confirmunban: false,
         confirmunmute: false,
         updubhover: false,
@@ -161,12 +161,25 @@ if (!run) {
                                 '<p class="main_content_p">Up Dub Message</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
+                            '<li onclick="functions.cmen();" class="main_content_li main_content_feature cmen">',
+                                '<p class="main_content_p">Custom Mentions</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
+                            '</li>',
+                            '<div class="INPUT CMEN">',
+                                '<li class="incmen">',
+                                    '<textarea class="input cmen" placeholder="bill, bob, john, jeff"></textarea>',
+                                    '<center><span class="CMSconfirm" onclick="functions.cmenc();">Confirm</span></center>',
+                                '</li>',
+                                '<br>',
+                            '</div>',
                             '<li onclick="functions.bginput();" class="main_content_li main_content_feature backgroudme">',
                                 '<p class="main_content_p">Custom Background</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
                             '</li>',
                             '<div class="INPUT BG">',
                                 '<li class="inbg">',
+                                    '<textarea class="input bg" placeholder="https://example.com/example.jpg"></textarea>',
+                                    '<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>',
                                 '</li>',
                                 '<br>',
                             '</div>',
@@ -176,6 +189,8 @@ if (!run) {
                             '</li>',
                             '<div class="INPUT CSS">',
                                 '<li class="incss">',
+                                    '<textarea class="input css" placeholder="https://example.com/example.css"></textarea>',
+                                    '<center><span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span></center>',
                                 '</li>',
                                 '<br>',
                             '</div>',
@@ -237,6 +252,7 @@ if (!run) {
         },
         unmuteconfirm: function() {
             if (!options.confirmunmute) {
+                $('.INPUT.CMEN').hide();
                 $('.INPUT.CSS').hide();
                 $('.INPUT.BG').hide();
                 $('.INPUT.AFK').hide();
@@ -250,6 +266,7 @@ if (!run) {
         },
         unbanconfirm: function() {
             if (!options.confirmunban) {
+                $('.INPUT.CMEN').hide();
                 $('.INPUT.CSS').hide();
                 $('.INPUT.BG').hide();
                 $('.INPUT.AFK').hide();
@@ -384,12 +401,6 @@ if (!run) {
                 }, 2000);
             }
         },
-        cssloading: function() {
-            if(localStorage.getItem('ccss') !==null) {
-                var text = localStorage.getItem('ccss');
-                $('head').append('<link class="CMSccss" href="'+text+'" rel="stylesheet" type="text/css">');
-            }
-        },
         cssconfirm: function() {
             var text = $('.input.css').val();
             if (text !==null) {
@@ -401,6 +412,7 @@ if (!run) {
         },
         cssinput: function() {
             if (!options.inputcss) {
+                $('.INPUT.CMEN').hide();
                 $('.INPUT.CSS').show();
                 $('.INPUT.BG').hide();
                 $('.INPUT.AFK').hide();
@@ -410,12 +422,6 @@ if (!run) {
             } else {
                 $('.INPUT.CSS').hide();
                 options.inputcss = false;
-            }
-        },
-        bgloading: function() {
-            if(localStorage.getItem('bg') !==null) {
-                var text = localStorage.getItem('bg');
-                $('body').append('<div class="CMSbg" style="background: url('+text+');"></div>');
             }
         },
         bgconfirm: function() {
@@ -429,6 +435,7 @@ if (!run) {
         },
         bginput: function() {
             if (!options.inputbg) {
+                $('.INPUT.CMEN').hide();
                 $('.INPUT.BG').show();
                 $('.INPUT.CSS').hide();
                 $('.INPUT.AFK').hide();
@@ -870,6 +877,58 @@ if (!run) {
                 console.log('%cMESSAGE: "'+msg+'"', 'font-size: 1.1em;');
                 console.log(' ');
             }
+        },
+        cmen: function() {
+            if (!options.cmen) {
+                $('.INPUT.CMEN').show();
+                $('.INPUT.BG').hide();
+                $('.INPUT.CSS').hide();
+                $('.INPUT.AFK').hide();
+                $('.CONFIRM.UNMUTE').hide();
+                $('.CONFIRM.UNBAN').hide();
+                options.cmen = true;
+            } else {
+                $('.INPUT.CMEN').hide();
+                options.cmen = false;
+            }
+        },
+        cmenc: function() {
+            var text = $('.input.cmen').val();
+            if (text !==null) {
+                functions.storage('cmen',text);
+                $('.INPUT.CMEN').hide();
+            }
+        },
+        cmench: function(e) {
+            var content = e.message.toLowerCase();
+            if (options.cmen) {
+                if (localStorage.getItem('cmen')) {
+                    var customMentions = localStorage.getItem('cmen').toLowerCase().split(',');
+                    if(Dubtrack.session.id !== e.user.userInfo.userid && customMentions.some(function(v) { return content.indexOf(v.trim(' ')) >= 0; })){
+                        Dubtrack.room.chat.mentionChatSound.play();
+                    }
+                }
+            }
+        },
+        updatecmen: function() {
+            var cmen = localStorage.getItem('cmen');
+            if (cmen !== 'null') {
+                $('.input.cmen').val(cmen);
+            }
+        },
+        updatebg: function() {
+            var bg = localStorage.getItem('bg');
+            if (bg !== 'null') {
+                $('.input.bg').val(bg);
+                $('body').append('<div class="CMSbg" style="background: url('+bg+');"></div>');
+            }
+        },
+        updatecss: function() {
+            var css = localStorage.getItem('ccss');
+            if (css !== 'null') {
+                $('.input.css').val(css);
+                $('head').append('<link class="CMSccss" href="'+css+'" rel="stylesheet" type="text/css">');
+            }
         }
     };
 
@@ -879,21 +938,12 @@ if (!run) {
         if (Dubtrack.session.get('username') === 'mrsuffocate') {
             $('body').append('<div class="pizza" style="background: url(http://i.imgur.com/A0qhlG2.gif);"></div>');
         }
-        if (localStorage.getItem('bg') !== null || localStorage.getItem('ccss') !== ' ') {
-            var bg = localStorage.getItem('bg');
-            $('.inbg').append('<textarea class="input bg" placeholder="'+bg+'"></textarea>','<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>');
-        } else {
-            $('.inbg').append('<textarea class="input bg" placeholder="https://example.com/example.jpg"></textarea>','<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>');
-        }
-        if (localStorage.getItem('ccss') !== null || localStorage.getItem('ccss') !== ' ') {
-            var css = localStorage.getItem('ccss');
-            $('.incss').append('<textarea class="input css" placeholder="'+css+'"></textarea>','<center><span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span></center>');
-        } else {
-            $('.inbg').append('<textarea class="input bg" placeholder="https://example.com/example.css"></textarea>','<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>');
-        }
         if (localStorage.getItem('delmsg') === 'true') {
             functions.deletemsg();
             //$('.deleted-message').hide();
+        }
+        if (localStorage.getItem('cmen')) {
+            functions.cmen();
         }
         if (localStorage.getItem('clearchat') === 'true') {
             functions.clearchat();
@@ -920,6 +970,7 @@ if (!run) {
             functions.roomcss();
         }
 
+        Dubtrack.Events.bind("realtime:chat-message", functions.cmench);
         Dubtrack.Events.bind('realtime:chat-message', functions.chatlog);
         Dubtrack.Events.bind("realtime:chat-message", functions.commands);
         Dubtrack.Events.bind('realtime:user-mute', functions.Muted);
@@ -931,10 +982,13 @@ if (!run) {
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
 
-        $('document').ready(functions.cssloading);
-        $('document').ready(functions.bgloading);
-        $('document').ready(functions.css);
-
+        functions.updatecmen();
+        functions.updatebg();
+        functions.updatecss();
+        functions.cmench();
+        functions.cssloading();
+        functions.bgloading();
+        functions.css();
         functions.etaclick();
         functions.hovertogglegrab();
         functions.hovertoggledowndub();
