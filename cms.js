@@ -982,6 +982,13 @@ if (!run) {
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
 
+        $('document').ready(function() {
+            functions.etaclick();
+            functions.hovertogglegrab();
+            functions.hovertoggledowndub();
+            functions.hovertoggleupdub();
+        });
+
         functions.updatecmen();
         functions.updatebg();
         functions.updatecss();
@@ -989,10 +996,6 @@ if (!run) {
         functions.cssloading();
         functions.bgloading();
         functions.css();
-        functions.etaclick();
-        functions.hovertogglegrab();
-        functions.hovertoggledowndub();
-        functions.hovertoggleupdub();
     }, 4000);
 } else {
     $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+',<br>CMS is already running.</li>');
