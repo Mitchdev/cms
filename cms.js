@@ -14,7 +14,6 @@
     (https://github.com/sinfulBA/DubX-Script)
 */
 /*global Dubtrack*/
-$(document).ready(function() {
     var run;
     if (!run) {
         run = true;
@@ -1099,4 +1098,3 @@ $(document).ready(function() {
     } else {
         $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+',<br>CMS is already running.</li>');
     }
-});
