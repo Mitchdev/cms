@@ -940,12 +940,6 @@ if (!run) {
         if (Dubtrack.session.get('username') === 'mrsuffocate') {
             $('body').append('<div class="pizza" style="background: url(http://i.imgur.com/A0qhlG2.gif);"></div>');
         }
-        if (localStorage.getItem('delmsg') === 'true') {
-            functions.deletemsg();
-        }
-        if (localStorage.getItem('cmen')) {
-            functions.cmen();
-        }
         if (localStorage.getItem('clearchat') === 'true') {
             functions.clearchat();
         }
@@ -984,6 +978,12 @@ if (!run) {
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
 
         $('document').ready(function() {
+            if (localStorage.getItem('delmsg') === 'true') {
+                functions.deletemsg();
+            }
+            if (localStorage.getItem('cmen')) {
+                functions.cmen();
+            }
             functions.etaclick();
             functions.hovertogglegrab();
             functions.hovertoggledowndub();
