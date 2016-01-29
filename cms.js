@@ -19,7 +19,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.9';
+    var version = 'Version - 11.8';
     var options = {
         autovote: false,
         workmode: false,
@@ -1089,6 +1089,7 @@ if (!run) {
         functions.updateafkmsg();
         functions.updatecss();
         functions.cmench();
+        functions.afkmsgch();
         functions.cssloading();
         functions.bgloading();
         functions.css();
