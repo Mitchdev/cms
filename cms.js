@@ -19,7 +19,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.2';
+    var version = 'Version - 11.4';
     var options = {
         autovote: false,
         workmode: false,
@@ -242,7 +242,9 @@ if (!run) {
                 $('body').prepend(mainmenu);
                 $('body').append(updubs);
                 $('body').append(grabs);
-                $('.INPUT').hide();
+                setTimeout(function() {
+                    $('.INPUT').hide();
+                }, 4000);
                 setTimeout(function() {
                     if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                         $(downdubs).insertAfter('.updublist');
@@ -379,13 +381,11 @@ if (!run) {
         },
         deletemsg: function() {
             if (!options.delmsgtoggle) {
-                options.delmsgtoggle = true;
                 functions.on('.deletemsg');
                 options.delm = true;
                 functions.delm();
                 functions.storage('delmsg', 'true');
             } else {
-                options.delmsgtoggle = false;
                 functions.off('.deletemsg');
                 functions.storage('delmsg', 'false');
                 options.delm = false;
@@ -894,17 +894,19 @@ if (!run) {
         },
         cmenc: function() {
             var text = $('.input.cmen').val();
-            if (text !==null) {
+            if (text !== null) {
                 functions.storage('cmen',text);
                 $('.INPUT.CMEN').hide();
             }
         },
         cmench: function(e) {
             var content = e.message.toLowerCase();
+            var user = Dubtrack.session.id;
+            var id = e.user.userInfo.userid;
             if (options.cmen) {
                 if (localStorage.getItem('cmen')) {
                     var customMentions = localStorage.getItem('cmen').toLowerCase().split(',');
-                    if(Dubtrack.session.id !== e.user.userInfo.userid && customMentions.some(function(v) { return content.indexOf(v.trim(' ')) >= 0; })){
+                    if(customMentions.some(function(f) { return content.indexOf(f.trim(' ')) >= 0; })) {
                         Dubtrack.room.chat.mentionChatSound.play();
                     }
                 }
@@ -940,7 +942,6 @@ if (!run) {
         }
         if (localStorage.getItem('delmsg') === 'true') {
             functions.deletemsg();
-            //$('.deleted-message').hide();
         }
         if (localStorage.getItem('cmen')) {
             functions.cmen();
