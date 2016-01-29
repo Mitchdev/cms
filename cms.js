@@ -19,7 +19,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.6';
+    var version = 'Version - 11.7';
     var options = {
         autovote: false,
         workmode: false,
@@ -199,9 +199,7 @@ if (!run) {
                             '<div class="INPUT BG">',
                                 '<li>',
                                     '<textarea class="input bg" placeholder="https://example.com/example.jpg"></textarea>',
-                                    '<center class="edit">',
-                                        '<span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span>',
-                                    '</center>',
+                                    '<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>',
                                 '</li>',
                                 '<br>',
                             '</div>',
@@ -212,9 +210,7 @@ if (!run) {
                             '<div class="INPUT CSS">',
                                 '<li>',
                                     '<textarea class="input css" placeholder="https://example.com/example.css"></textarea>',
-                                    '<center class="edit">',
-                                        '<span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span>',
-                                    '</center>',
+                                    '<center><span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span></center>',
                                 '</li>',
                                 '<br>',
                             '</div>',
