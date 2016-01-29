@@ -19,7 +19,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.8.1';
+    var version = 'Version - 11.8.2';
     var options = {
         autovote: false,
         workmode: false,
@@ -47,7 +47,7 @@ if (!run) {
         grabhover: false,
         cmentoggle: false,
         afktoggle: false,
-        timeout: true,
+        afkto: false,
     };
 
     var functions = {
@@ -959,20 +959,26 @@ if (!run) {
             var user = Dubtrack.session.id;
             var id = e.user.userInfo.userid;
             if (message.indexOf('@'+username) >-1 && user !== id) {
-                if (options.timeout && options.afktoggle) {
-                    if (localStorage.getItem('afkmsg')) {
-                        var msg = localStorage.getItem('afkmsg');
-                        $('#chat-txt-message').val(msg);
-                    } else {
-                        $('#chat-txt-message').val("I am currently Afk.");
+                if (options.afktoggle) {
+                    if (!options.afkto) {
+                        if (localStorage.getItem('afkmsg')) {
+                            var msg = localStorage.getItem('afkmsg');
+                            $('#chat-txt-message').val(msg);
+                            setTimeout(function() {
+                                options.afkto = true;
+                                Dubtrack.room.chat.sendMessage();
+                            }, 1000);
+                        }
+                        setTimeout(function() {
+                            options.afkto = false;
+                        }, 120000);
+                        console.log('if (options.afkto) {}');
                     }
-                    Dubtrack.room.chat.sendMessage();
-                    options.timeout = false;
-                    setTimeout(function() {
-                        options.timeout = true;
-                    }, 120000);
+                    console.log('if (options.afktoggle) {}');
                 }
+                console.log('if (message.indexOf(@username) >-1 && user !== id) {}');
             }
+            console.log('afk: function(e) {}');
         },
         updatecmen: function() {
             var cmen = localStorage.getItem('cmen');
