@@ -688,6 +688,7 @@ if (!run) {
             var message = e.message;
             var id = Dubtrack.session.id;
             var user = e.user.userInfo.userid;
+            var mitch = '55ff8bf7196f170300cc0b2a';
             if (message.indexOf('/help') >-1 && id === user) {
                 var help = [
                     '<li class="system">',
@@ -1023,6 +1024,48 @@ if (!run) {
                 functions.storage('cmentoggle','false');
                 functions.off('.cmentoggle');
             }
+        },
+        newupdate: function(e) {
+            var message = e.message;
+            var user = e.user.userInfo.userid;
+            var id = '55ff8bf7196f170300cc0b2a';
+            console.log(user);
+            if (message.indexOf("/nu") >-1 && id === user) {
+                var msg = [
+                    '<div id="toast-container" class="toast-top-right" style="display:none;" aria-live="polite" role="alert">',
+                        '<div class="toast toast-error" style="display: block;">',
+                            '<div class="toast-progress" style="width: 100%;"></div>',
+                            '<button onclick="functions.nur();" type="button" class="toast-close-button" role="button">×</button>',
+                            '<div class="toast-message">CMS Has Updated!<br>Please Refresh The Update.</div>',
+                        '</div>',
+                    '</div>'
+                ].join(' ');
+                var style = '<link class="toast-style" rel="stylesheet" type="text/css" href="https://mitchdev.net/cms/css/toast.css">';
+                $('body').append(msg);
+                $('.toast-top-right').fadeToggle('slow');
+                $('head').append(style);
+                functions.nup();
+                Dubtrack.room.chat.mentionChatSound.play();
+            }
+        },
+        nup: function() {
+            setTimeout(function() {
+                $('.toast-progress').hide("slide", { direction: "left" }, 10000);
+                setTimeout(function() {
+                    functions.nur();
+                }, 9000);
+            }, 1000);
+        },
+        nur: function() {
+            $('.toast-top-right').fadeToggle('slow');
+            setTimeout(function() {
+                $('.toast-container').remove();
+                $('.toast').remove();
+                $('.toast-progress').remove();
+                $('.toast-close-button').remove();
+                $('.toast-message').remove();
+                $('.toast-style').remove();
+            }, 4000);
         }
     };
 
@@ -1071,6 +1114,7 @@ if (!run) {
             functions.afkmsg();
         }
         
+        Dubtrack.Events.bind("realtime:chat-message", functions.newupdate);
         Dubtrack.Events.bind("realtime:chat-message", functions.afkch);
         Dubtrack.Events.bind("realtime:chat-message", functions.cmench);
         Dubtrack.Events.bind('realtime:chat-message', functions.chatlog);
