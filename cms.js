@@ -972,13 +972,9 @@ if (!run) {
                         setTimeout(function() {
                             options.afkto = false;
                         }, 120000);
-                        console.log('if (options.afkto) {}');
                     }
-                    console.log('if (options.afktoggle) {}');
                 }
-                console.log('if (message.indexOf(@username) >-1 && user !== id) {}');
             }
-            console.log('afk: function(e) {}');
         },
         updatecmen: function() {
             var cmen = localStorage.getItem('cmen');
