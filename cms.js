@@ -19,7 +19,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.4';
+    var version = 'Version - 11.4.3';
     var options = {
         autovote: false,
         workmode: false,
@@ -244,7 +244,7 @@ if (!run) {
                 $('body').append(grabs);
                 setTimeout(function() {
                     $('.INPUT').hide();
-                }, 4000);
+                }, 6000);
                 setTimeout(function() {
                     if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                         $(downdubs).insertAfter('.updublist');
@@ -393,13 +393,11 @@ if (!run) {
             }
         },
         delm: function() {
-            if (options.delm) {
-                setInterval(function() {
-                    if (options.delm) {
-                        $('.deleted-message').hide();
-                    }
-                }, 2000);
-            }
+            setInterval(function() {
+                if (options.delm) {
+                    $('.deleted-message').hide();
+                }
+            }, 2000);
         },
         cssconfirm: function() {
             var text = $('.input.css').val();
@@ -935,7 +933,6 @@ if (!run) {
     };
 
     functions.mainmenu();
-
     setTimeout(function() {
         if (Dubtrack.session.get('username') === 'mrsuffocate') {
             $('body').append('<div class="pizza" style="background: url(http://i.imgur.com/A0qhlG2.gif);"></div>');
@@ -964,6 +961,12 @@ if (!run) {
         if (localStorage.getItem('css') === 'true') {
             functions.roomcss();
         }
+        if (localStorage.getItem('delmsg') === 'true') {
+            functions.deletemsg();
+        }
+        if (localStorage.getItem('cmen')) {
+            functions.cmen();
+        }
 
         Dubtrack.Events.bind("realtime:chat-message", functions.cmench);
         Dubtrack.Events.bind('realtime:chat-message', functions.chatlog);
@@ -977,19 +980,10 @@ if (!run) {
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
 
-        $('document').ready(function() {
-            if (localStorage.getItem('delmsg') === 'true') {
-                functions.deletemsg();
-            }
-            if (localStorage.getItem('cmen')) {
-                functions.cmen();
-            }
-            functions.etaclick();
-            functions.hovertogglegrab();
-            functions.hovertoggledowndub();
-            functions.hovertoggleupdub();
-        });
-
+        functions.etaclick();
+        functions.hovertogglegrab();
+        functions.hovertoggledowndub();
+        functions.hovertoggleupdub();
         functions.updatecmen();
         functions.updatebg();
         functions.updatecss();
@@ -997,7 +991,7 @@ if (!run) {
         functions.cssloading();
         functions.bgloading();
         functions.css();
-    }, 4000);
+    }, 6000);
 } else {
     $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+',<br>CMS is already running.</li>');
 }
