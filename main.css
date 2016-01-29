@@ -90,6 +90,13 @@
 	position: relative;
 	bottom: 1px;
 }
+.edt {
+	margin-bottom: 0;
+	cursor: pointer;
+}
+.edt span {
+	float: right;
+}
 .CMSdisabled {
 	color: #FFFFFF;
 }
@@ -153,6 +160,9 @@
 }
 ::-webkit-scrollbar {
 	display: none;
+}
+.edit {
+	margin-bottom: 15px;
 }
 .main_content_ver {
 	display: block;
