@@ -19,7 +19,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.4.3';
+    var version = 'Version - 11.6';
     var options = {
         autovote: false,
         workmode: false,
@@ -39,11 +39,14 @@ if (!run) {
         clearchat: false,
         cc: false,
         cmen: false,
+        afkmsg: false,
         confirmunban: false,
         confirmunmute: false,
         updubhover: false,
         downdubhover: false,
         grabhover: false,
+        cmentoggle: false,
+        afktoggle: false,
     };
 
     var functions = {
@@ -161,14 +164,31 @@ if (!run) {
                                 '<p class="main_content_p">Up Dub Message</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
+                            '<li onclick="functions.afkmsg();" class="main_content_li main_content_feature afkmsg">',
+                                '<p class="main_content_p">Custom Afk Message</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
+                            '</li>',
+                            '<div class="INPUT AFKMSG">',
+                                '<li>',
+                                    '<textarea class="input afk" placeholder="I am currently afk at the moment."></textarea>',
+                                    '<center class="edit">',
+                                        '<span class="CMSconfirm" onclick="functions.afkmsgc();" style="float: left;">Confirm</span>',
+                                        '<li class="afktoggle"><p onclick="functions.afktoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
+                                    '</center>',
+                                '</li>',
+                                '<br>',
+                            '</div>',
                             '<li onclick="functions.cmen();" class="main_content_li main_content_feature cmen">',
                                 '<p class="main_content_p">Custom Mentions</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
                             '</li>',
                             '<div class="INPUT CMEN">',
-                                '<li class="incmen">',
+                                '<li>',
                                     '<textarea class="input cmen" placeholder="bill, bob, john, jeff"></textarea>',
-                                    '<center><span class="CMSconfirm" onclick="functions.cmenc();">Confirm</span></center>',
+                                    '<center class="edit">',
+                                        '<span class="CMSconfirm" onclick="functions.cmenc();" style="float: left;">Confirm</span>',
+                                        '<li class="cmentoggle"><p onclick="functions.cmentoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
+                                    '</center>',
                                 '</li>',
                                 '<br>',
                             '</div>',
@@ -177,9 +197,11 @@ if (!run) {
                                 '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
                             '</li>',
                             '<div class="INPUT BG">',
-                                '<li class="inbg">',
+                                '<li>',
                                     '<textarea class="input bg" placeholder="https://example.com/example.jpg"></textarea>',
-                                    '<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>',
+                                    '<center class="edit">',
+                                        '<span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span>',
+                                    '</center>',
                                 '</li>',
                                 '<br>',
                             '</div>',
@@ -188,9 +210,11 @@ if (!run) {
                                 '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
                             '</li>',
                             '<div class="INPUT CSS">',
-                                '<li class="incss">',
+                                '<li>',
                                     '<textarea class="input css" placeholder="https://example.com/example.css"></textarea>',
-                                    '<center><span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span></center>',
+                                    '<center class="edit">',
+                                        '<span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span>',
+                                    '</center>',
                                 '</li>',
                                 '<br>',
                             '</div>',
@@ -257,7 +281,7 @@ if (!run) {
                 $('.INPUT.CMEN').hide();
                 $('.INPUT.CSS').hide();
                 $('.INPUT.BG').hide();
-                $('.INPUT.AFK').hide();
+                $('.INPUT.AFKMSG').hide();
                 $('.CONFIRM.UNMUTE').show();
                 $('.CONFIRM.UNBAN').hide();
                 options.confirmunmute = true;
@@ -271,7 +295,7 @@ if (!run) {
                 $('.INPUT.CMEN').hide();
                 $('.INPUT.CSS').hide();
                 $('.INPUT.BG').hide();
-                $('.INPUT.AFK').hide();
+                $('.INPUT.AFKMSG').hide();
                 $('.CONFIRM.UNMUTE').hide();
                 $('.CONFIRM.UNBAN').show();
                 options.confirmunban = true;
@@ -413,7 +437,7 @@ if (!run) {
                 $('.INPUT.CMEN').hide();
                 $('.INPUT.CSS').show();
                 $('.INPUT.BG').hide();
-                $('.INPUT.AFK').hide();
+                $('.INPUT.AFKMSG').hide();
                 $('.CONFIRM.UNMUTE').hide();
                 $('.CONFIRM.UNBAN').hide();
                 options.inputcss = true;
@@ -435,8 +459,8 @@ if (!run) {
             if (!options.inputbg) {
                 $('.INPUT.CMEN').hide();
                 $('.INPUT.BG').show();
+                $('.INPUT.AFKMSG').hide();
                 $('.INPUT.CSS').hide();
-                $('.INPUT.AFK').hide();
                 $('.CONFIRM.UNMUTE').hide();
                 $('.CONFIRM.UNBAN').hide();
                 options.inputbg = true;
@@ -880,6 +904,7 @@ if (!run) {
             if (!options.cmen) {
                 $('.INPUT.CMEN').show();
                 $('.INPUT.BG').hide();
+                $('.INPUT.AFKMSG').hide();
                 $('.INPUT.CSS').hide();
                 $('.INPUT.AFK').hide();
                 $('.CONFIRM.UNMUTE').hide();
@@ -902,10 +927,50 @@ if (!run) {
             var user = Dubtrack.session.id;
             var id = e.user.userInfo.userid;
             if (options.cmen) {
-                if (localStorage.getItem('cmen')) {
+                if (options.cmentoggle && user !== id && localStorage.getItem('cmen')) {
                     var customMentions = localStorage.getItem('cmen').toLowerCase().split(',');
                     if(customMentions.some(function(f) { return content.indexOf(f.trim(' ')) >= 0; })) {
                         Dubtrack.room.chat.mentionChatSound.play();
+                    }
+                }
+            }
+        },
+        afkmsg: function() {
+            if (!options.afkmsg) {
+                $('.INPUT.AFKMSG').show();
+                $('.INPUT.CMEN').hide();
+                $('.INPUT.BG').hide();
+                $('.INPUT.CSS').hide();
+                $('.CONFIRM.UNMUTE').hide();
+                $('.CONFIRM.UNBAN').hide();
+                options.afkmsg = true;
+            } else {
+                $('.INPUT.AFKMSG').hide();
+                options.afkmsg = false;
+            }
+        },
+        afkmsgc: function() {
+            var text = $('.input.afk').val();
+            if (text !== null) {
+                functions.storage('afkmsg',text);
+                $('.INPUT.AFKMSG').hide();
+            }
+        },
+        afkmsgch: function(e) {
+            var message = e.message;
+            var user = Dubtrack.session.id;
+            var id = e.user.userInfo.userid;
+            if (options.afkmsg) {
+                if (localStorage.getItem('afkmsg')) {
+                    var afk = localStorage.getItem('afkmsg');
+                    var timeout = true;
+                    if(options.afktoggle && timeout && user !== id && message.indexOf('@'+Dubtrack.session.get('username')+'') >-1) {
+                        $('#chat-txt-message').val(afk);
+                        Dubtrack.room.chat.sendMessage();
+                        timeout = false;
+                        setTimeout(function() {
+                            timeout = true;
+                        }, 120000);
                     }
                 }
             }
@@ -914,6 +979,12 @@ if (!run) {
             var cmen = localStorage.getItem('cmen');
             if (cmen !== 'null') {
                 $('.input.cmen').val(cmen);
+            }
+        },
+        updateafkmsg: function() {
+            var afk = localStorage.getItem('afkmsg');
+            if (afk !== 'null') {
+                $('.input.afk').val(afk);
             }
         },
         updatebg: function() {
@@ -929,6 +1000,28 @@ if (!run) {
                 $('.input.css').val(css);
                 $('head').append('<link class="CMSccss" href="'+css+'" rel="stylesheet" type="text/css">');
             }
+        },
+        afktoggle: function() {
+            if (!options.afktoggle) {
+                options.afktoggle = true;
+                functions.storage('afktoggle','true');
+                functions.on('.afktoggle');
+            } else {
+                options.afktoggle = false;
+                functions.storage('afktoggle','false');
+                functions.off('.afktoggle');
+            }
+        },
+        cmentoggle: function() {
+            if (!options.cmentoggle) {
+                options.cmentoggle = true;
+                functions.storage('cmentoggle','true');
+                functions.on('.cmentoggle');
+            } else {
+                options.cmentoggle = false;
+                functions.storage('cmentoggle','false');
+                functions.off('.cmentoggle');
+            }
         }
     };
 
@@ -939,6 +1032,12 @@ if (!run) {
         }
         if (localStorage.getItem('clearchat') === 'true') {
             functions.clearchat();
+        }
+        if (localStorage.getItem('afktoggle') === 'true') {
+            functions.afktoggle();
+        }
+        if (localStorage.getItem('cmentoggle') === 'true') {
+            functions.cmentoggle();
         }
         if (localStorage.getItem('userjoin') === 'true') {
             functions.userjoin();
@@ -967,7 +1066,11 @@ if (!run) {
         if (localStorage.getItem('cmen')) {
             functions.cmen();
         }
+        if (localStorage.getItem('afkmsg')) {
+            functions.afkmsg();
+        }
 
+        Dubtrack.Events.bind("realtime:chat-message", functions.afkmsgch);
         Dubtrack.Events.bind("realtime:chat-message", functions.cmench);
         Dubtrack.Events.bind('realtime:chat-message', functions.chatlog);
         Dubtrack.Events.bind("realtime:chat-message", functions.commands);
@@ -986,6 +1089,7 @@ if (!run) {
         functions.hovertoggleupdub();
         functions.updatecmen();
         functions.updatebg();
+        functions.updateafkmsg();
         functions.updatecss();
         functions.cmench();
         functions.cssloading();
