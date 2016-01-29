@@ -13,13 +13,13 @@
     with permission from the owners of the dubx project 
     (https://github.com/sinfulBA/DubX-Script)
 */
-
+/*global Dubtrack*/
 var run;
 if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.7';
+    var version = 'Version - 11.9';
     var options = {
         autovote: false,
         workmode: false,
@@ -47,6 +47,7 @@ if (!run) {
         grabhover: false,
         cmentoggle: false,
         afktoggle: false,
+        timeout: true,
     };
 
     var functions = {
@@ -954,20 +955,20 @@ if (!run) {
         },
         afkmsgch: function(e) {
             var message = e.message;
+            var username = Dubtrack.session.get('username');
             var user = Dubtrack.session.id;
             var id = e.user.userInfo.userid;
-            if (options.afkmsg) {
-                if (localStorage.getItem('afkmsg')) {
-                    var afk = localStorage.getItem('afkmsg');
-                    var timeout = true;
-                    if(options.afktoggle && timeout && user !== id && message.indexOf('@'+Dubtrack.session.get('username')+'') >-1) {
-                        $('#chat-txt-message').val(afk);
-                        Dubtrack.room.chat.sendMessage();
-                        timeout = false;
-                        setTimeout(function() {
-                            timeout = true;
-                        }, 120000);
+            if (message.indexOf('@'+username) >-1 && user !== id) {
+                if (options.timeout) {
+                    if (localStorage.getItem('afkmsg')) {
+                        var msg = localStorage.getItem('afkmsg');
+                        $('#chat-txt-message').val(msg);
                     }
+                    Dubtrack.room.chat.sendMessage();
+                    options.timeout = false;
+                    setTimeout(function() {
+                        options.timeout = true;
+                    }, 120000);
                 }
             }
         },
