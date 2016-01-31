@@ -20,7 +20,7 @@ if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.8.5';
+    var version = 'Version - 11.8.6';
     var options = {
         autovote: false,
         workmode: false,
@@ -1040,7 +1040,7 @@ if (!run) {
                     '<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert">',
                         '<div class="toast toast-error" style="display: block;">',
                             '<div class="toast-progress" style="width: 100%;"></div>',
-                            '<button onclick="functions.nur();" type="button" class="toast-close-button" role="button">×</button>',
+                            '<button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button>',
                             '<div class="toast-message">New version of CMS!<br>Please Refresh To Update.</div>',
                         '</div>',
                     '</div>'
