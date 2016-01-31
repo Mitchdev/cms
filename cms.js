@@ -1097,7 +1097,7 @@ if (!run) {
         }
     };
     
-    functions.notification('warning', 'Waiting For CMS To Load');
+    functions.notification('warning', 'Please Wait For CMS To Load');
     functions.mainmenu();
     setTimeout(function() {
         if (Dubtrack.session.get('_id') === '5609dc356c09ec03001e7748') {
@@ -1166,7 +1166,10 @@ if (!run) {
         functions.updatebg();
         functions.updateafkmsg();
         functions.updatecss();
+        setTimeout(function() {
+            functions.notification('success', 'CMS Has Successfully Loaded<br>Welcome '+Dubtrack.session.get('username')+'');
+        }, 5000);
     }, 6000);
 } else {
-    $('.chat-main').append('<li class="system" style="text-align: center;">Sorry '+Dubtrack.session.get('username')+',<br>CMS is already running.</li>');
+    functions.notification('error', 'Sorry '+Dubtrack.session.get('username')+'<br>There Is Already A Version Of CMS Running On This Browser');
 }
