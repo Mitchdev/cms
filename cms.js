@@ -13,13 +13,14 @@ Parts of this code has been borrowed and rewritten
 with permission from the owners of the dubx project
 (https://github.com/sinfulBA/DubX-Script)
 */
+/*global $*/
 /*global Dubtrack*/
 var run;
 if (!run) {
     run = true;
     var help = '/help - For help about cms!';
     var motd = 'Custom Mentions!';
-    var version = 'Version - 11.8.2';
+    var version = 'Version - 11.8.5';
     var options = {
         autovote: false,
         workmode: false,
@@ -48,6 +49,8 @@ if (!run) {
         cmentoggle: false,
         afktoggle: false,
         afkto: false,
+        snooze: false,
+        currentVol: null,
     };
 
     var functions = {
@@ -117,6 +120,7 @@ if (!run) {
                 '</li>'
             ].join('');
             var mainmenu = [
+                '<link rel="stylesheet" type="text/css" href="https://mitchdev.net/cms/css/toast.css">',
                 '<link rel="stylesheet" type="text/css" href="https://rawgit.com/Mitchdev/CMS/master/main.css">',
                 '<div class="main_content">',
                     '<div class="headerbox" onclick="functions.menufade();">',
@@ -243,7 +247,6 @@ if (!run) {
             ].join('');
             setTimeout(function() {
                 $('.chat-main').append(welcome);
-                functions.stb();
                 $(settingbtn).insertAfter('.chat-option-buttons-sound');
             }, 5000);
             setTimeout(function() {
@@ -257,6 +260,7 @@ if (!run) {
             }, 4000);
             setTimeout(function() {
                 $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" class="eta">ETA</span>');
+                $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" onclick="functions.snooze();" class="snooze">SNOOZE</span>');
                 $(dtapi).insertAfter('#main-menu-left .navigate.room-active-link');
                 $(ebtn).insertAfter('#main-menu-left .navigate.lobby-link');
                 $(btn).insertAfter('.player_header .room-info-display');
@@ -309,6 +313,7 @@ if (!run) {
                         var uuid = i._user._id;
                         if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                             Dubtrack.room.chat.unmuteUser(''+uuid+'');
+                            functions.notification('success', 'You Successfully Unmuted Everyone');
                         } else {
                             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">You do not have permission to perform this action</span></div></li>');
                         }
@@ -324,6 +329,7 @@ if (!run) {
                         var uuid = i._user._id;
                         if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                             Dubtrack.room.chat.unbanUser(''+uuid+'');
+                            functions.notification('success', 'You Successfully Unbanned Everyone');
                         } else {
                             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">You do not have permission to perform this action</span></div></li>');
                         }
@@ -427,6 +433,7 @@ if (!run) {
                 $('.CMSccss').remove();
                 $('head').append('<link class="CMSccss" href="'+text+'" rel="stylesheet" type="text/css">');
                 $('.INPUT.CSS').hide();
+                functions.notification('info', 'Custom Css Set To<br>'+text+'');
             }
         },
         cssinput: function() {
@@ -450,6 +457,10 @@ if (!run) {
                 $('.CMSbg').remove();
                 $('body').append('<div class="CMSbg" style="background: url('+text+');"></div>');
                 $('.INPUT.BG').hide();
+                if(text.length > 50) {
+                    functions.notification('info', 'Custom Background Set To<br>'+text+'');
+                }
+                functions.notification('info', 'Custom Background Set To<br>'+text+'');
             }
         },
         bginput: function() {
@@ -490,7 +501,7 @@ if (!run) {
                 options.autovote = false;
                 functions.storage('autovote','false');
                 functions.off('.autovote');
-                Dubtrack.Events.unbind("realtime:room_playlist-update", functions.vote); 
+                Dubtrack.Events.unbind("realtime:room_playlist-update", functions.vote);
             }
         },
         workmode: function() {
@@ -533,7 +544,7 @@ if (!run) {
                     $('head').append('<link class="CMScss" href="'+append[1]+'" rel="stylesheet" type="text/css">');
                     });
                 functions.storage('css','true');
-                functions.on('.roomcss'); 
+                functions.on('.roomcss');
             } else {
                 options.roomcss = false;
                 $('.CMScss').remove();
@@ -673,7 +684,7 @@ if (!run) {
                 setInterval(function() {
                     $('.clearChatToggle').click();
                     setTimeout(function() {
-                        $('.chat-main').append('<li class="chat-system-loading">Automatically by cms!</li>');
+                        functions.notification('info', 'Chat Cleared Automatically By CMS');
                     }, 1000);
                 }, 1800000);
             }
@@ -688,7 +699,6 @@ if (!run) {
             var message = e.message;
             var id = Dubtrack.session.id;
             var user = e.user.userInfo.userid;
-            var mitch = '55ff8bf7196f170300cc0b2a';
             if (message.indexOf('/help') >-1 && id === user) {
                 var help = [
                     '<li class="system">',
@@ -773,7 +783,11 @@ if (!run) {
                 var ct = parseInt($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
                 var bd = parseInt($('.queue-position').text());
                 var bt = (bd * t - t) + ct;
-                functions.eta(bt);
+                if (bt >= 0) {
+                    functions.notification('info', 'ETA: Less than '+bt+' Minutes');
+                } else {
+                    functions.notification('info', 'ETA: You\'re not in the queue');
+                }
             });
         },
         who: function(username) {
@@ -788,7 +802,7 @@ if (!run) {
                 var uuid = i._id;
                 var locale = i.userInfo.locale;
                 var cr = ''+i.created+'';
-                var created = cr.substr(0, cr.length-3); 
+                var created = cr.substr(0, cr.length-3);
                 var rrole = 'user';
                 var grole = 'user';
                 var dubs = Dubtrack.room.users.getDubs(''+uuid+'');
@@ -801,7 +815,7 @@ if (!run) {
                     h = hh,
                     ampm = 'AM',
                     min = ('0' + d.getMinutes()).slice(-2),
-                    time;   
+                    time;
                 if (hh > 12) {
                     h = hh - 12;
                     ampm = 'PM';
@@ -859,21 +873,13 @@ if (!run) {
                 functions.stb();
             });
         },
-        eta: function(e) {
-            if (e >= 0) {
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><span>ETA: '+e+' Minutes</span></li>');
-            } else {
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><span>ETA: You\'re not in the queue</span></li>');
-            }
-            functions.stb();
-        },
         chatlog: function(e) {
-            if (Dubtrack.session.get('username') === 'mitch') {
+            if (Dubtrack.session.get('_id') === '55ff8bf7196f170300cc0b2a') {
                 var username = e.user.username;
                 var userid = e.user.userInfo.userid;
                 var msg = e.message;
                 var c = ''+e.time+'';
-                var cr = c.substr(0, c.length-3); 
+                var cr = c.substr(0, c.length-3);
                 var d = new Date(cr * 1000),
                     yyyy = d.getFullYear(),
                     mm = ('0' + (d.getMonth() + 1)).slice(-2),
@@ -882,7 +888,7 @@ if (!run) {
                     h = hh,
                     ampm = 'AM',
                     min = ('0' + d.getMinutes()).slice(-2),
-                    time;   
+                    time;
                 if (hh > 12) {
                     h = hh - 12;
                     ampm = 'PM';
@@ -918,6 +924,7 @@ if (!run) {
             if (text !== null) {
                 functions.storage('cmen',text);
                 $('.INPUT.CMEN').hide();
+                functions.notification('info', 'Custom Mentions Set To<br>'+text+'');
             }
         },
         cmench: function(e) {
@@ -952,6 +959,7 @@ if (!run) {
             if (text !== null) {
                 functions.storage('afkmsg',text);
                 $('.INPUT.AFKMSG').hide();
+                functions.notification('info', 'Afk Message Set To<br>'+text+'');
             }
         },
         afkch: function(e) {
@@ -1006,11 +1014,9 @@ if (!run) {
         afktoggle: function() {
             if (!options.afktoggle) {
                 options.afktoggle = true;
-                functions.storage('afktoggle','true');
                 functions.on('.afktoggle');
             } else {
                 options.afktoggle = false;
-                functions.storage('afktoggle','false');
                 functions.off('.afktoggle');
             }
         },
@@ -1029,49 +1035,72 @@ if (!run) {
             var message = e.message;
             var user = e.user.userInfo.userid;
             var id = '55ff8bf7196f170300cc0b2a';
-            console.log(user);
             if (message.indexOf("/nu") >-1 && id === user) {
                 var msg = [
-                    '<div id="toast-container" class="toast-top-right" style="display:none;" aria-live="polite" role="alert">',
+                    '<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert">',
                         '<div class="toast toast-error" style="display: block;">',
                             '<div class="toast-progress" style="width: 100%;"></div>',
                             '<button onclick="functions.nur();" type="button" class="toast-close-button" role="button">×</button>',
-                            '<div class="toast-message">CMS Has Updated!<br>Please Refresh The Update.</div>',
+                            '<div class="toast-message">New version of CMS!<br>Please Refresh To Update.</div>',
                         '</div>',
                     '</div>'
                 ].join(' ');
-                var style = '<link class="toast-style" rel="stylesheet" type="text/css" href="https://mitchdev.net/cms/css/toast.css">';
                 $('body').append(msg);
                 $('.toast-top-right').fadeToggle('slow');
-                $('head').append(style);
-                functions.nup();
                 Dubtrack.room.chat.mentionChatSound.play();
             }
         },
-        nup: function() {
-            setTimeout(function() {
-                $('.toast-progress').hide("slide", { direction: "left" }, 10000);
-                setTimeout(function() {
-                    functions.nur();
-                }, 9000);
-            }, 1000);
+        snooze: function() {
+            if (!options.snooze) {
+                options.currentVol = Dubtrack.room.player.player_volume_level;
+                Dubtrack.room.player.setVolume(0);
+                options.snooze = true;
+                functions.notification('info', 'Snooze Enabled<br>Unmuting Next Song Automatically');
+            } else {
+                functions.notification('error', 'Snooze Already Enabled');
+            }
         },
-        nur: function() {
+        songAdvance: function(e) {
+            if (e.startTime < 5) {
+                if (options.snooze) {
+                    Dubtrack.room.player.setVolume(options.currentVol);
+                    options.snooze = false;
+                }
+                return true;
+            }
+        },
+        notification: function(type, message) {
+            if ($('#toast-container').hasClass('toast-top-right')) {
+                functions.ntfr();
+                setTimeout(function(){
+                    $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
+                    $('#toast-container').fadeToggle('slow');
+                    functions.ntfp(); 
+                }, 2000);
+            } else {
+                $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
+                $('#toast-container').fadeToggle('slow');
+                functions.ntfp();   
+            }
+        },
+        ntfp: function() {
+            $('.toast-progress').hide("slide", { direction: "left" }, 10000);
+            setTimeout(function() {
+                functions.ntfr();
+            }, 9500);
+        },
+        ntfr: function() {
             $('.toast-top-right').fadeToggle('slow');
             setTimeout(function() {
-                $('.toast-container').remove();
-                $('.toast').remove();
-                $('.toast-progress').remove();
-                $('.toast-close-button').remove();
-                $('.toast-message').remove();
-                $('.toast-style').remove();
-            }, 4000);
+                $('#toast-container').remove();
+            }, 1000);
         }
     };
-
+    
+    functions.notification('warning', 'Waiting For CMS To Load');
     functions.mainmenu();
     setTimeout(function() {
-        if (Dubtrack.session.get('username') === 'mrsuffocate') {
+        if (Dubtrack.session.get('_id') === '5609dc356c09ec03001e7748') {
             $('body').append('<div class="pizza" style="background: url(http://i.imgur.com/A0qhlG2.gif);"></div>');
         }
         if (localStorage.getItem('clearchat') === 'true') {
@@ -1113,17 +1142,18 @@ if (!run) {
         if (localStorage.getItem('afkmsg')) {
             functions.afkmsg();
         }
-        
-        Dubtrack.Events.bind("realtime:chat-message", functions.newupdate);
-        Dubtrack.Events.bind("realtime:chat-message", functions.afkch);
-        Dubtrack.Events.bind("realtime:chat-message", functions.cmench);
+
+        Dubtrack.Events.bind('realtime:chat-message', functions.newupdate);
+        Dubtrack.Events.bind('realtime:chat-message', functions.afkch);
+        Dubtrack.Events.bind('realtime:chat-message', functions.cmench);
         Dubtrack.Events.bind('realtime:chat-message', functions.chatlog);
-        Dubtrack.Events.bind("realtime:chat-message", functions.commands);
+        Dubtrack.Events.bind('realtime:chat-message', functions.commands);
         Dubtrack.Events.bind('realtime:user-mute', functions.Muted);
         Dubtrack.Events.bind('realtime:user-unmute', functions.Unmuted);
-        Dubtrack.Events.bind("realtime:room_playlist-update", functions.updateupdublist);
-        Dubtrack.Events.bind("realtime:room_playlist-update", functions.updatedowndublist);
-        Dubtrack.Events.bind("realtime:room_playlist-update", functions.updategrablist);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.updateupdublist);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.updatedowndublist);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.updategrablist);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.songAdvance);
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.updublist);
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
