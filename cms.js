@@ -1,18 +1,18 @@
 /*
-LICENSED UNDER THE Q PUBLIC LICENSE version 1.0;
-Copyright (C) 1999-2005 Trolltech AS, Norway.
-You may obtain a copy of the License at
-https://opensource.org/licenses/QPL-1.0
-The Software and this license document are provided
-AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE.
-This license is governed by the Laws of Norway.
-Disputes shall be settled by Oslo City Court.
-Parts of this code has been borrowed and rewritten
-with permission from the owners of the dubx project
-(https://github.com/sinfulBA/DubX-Script)
-*/
+ LICENSED UNDER THE Q PUBLIC LICENSE version 1.0;
+ Copyright (C) 1999-2005 Trolltech AS, Norway.
+ You may obtain a copy of the License at
+ https://opensource.org/licenses/QPL-1.0
+ The Software and this license document are provided
+ AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+ WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE.
+ This license is governed by the Laws of Norway.
+ Disputes shall be settled by Oslo City Court.
+ Parts of this code has been borrowed and rewritten
+ with permission from the owners of the dubx project
+ (https://github.com/sinfulBA/DubX-Script)
+ */
 /*global $*/
 /*global Dubtrack*/
 var run;
@@ -62,38 +62,42 @@ if (!run) {
                 $('.main_content').fadeToggle('slow');
             }
         },
+        addToChat: function(data) {
+            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text">' + data + '</div></li>');
+            functions.stb();
+        },
         mainmenu: function() {
             var grabs = [
-            '<div class="grablist" style="display: none;">',
-                    '<center>',
-                        '<div class="grablistheader" style="margin-top: 10px;">',
-                            '<h1>Grabs</h1>',
-                        '</div>',
-                        '<div class="grablistpeople" style="margin-top: 10px;margin-bottom:10px;">',
-                        '</div>',
-                    '</center>',
+                '<div class="grablist" style="display: none;">',
+                '<center>',
+                '<div class="grablistheader" style="margin-top: 10px;">',
+                '<h1>Grabs</h1>',
+                '</div>',
+                '<div class="grablistpeople" style="margin-top: 10px;margin-bottom:10px;">',
+                '</div>',
+                '</center>',
                 '</div>'
             ].join('');
             var updubs = [
                 '<div class="updublist" style="display: none;">',
-                    '<center>',
-                        '<div class="updublistheader" style="margin-top: 10px;">',
-                            '<h1>Updubs</h1>',
-                        '</div>',
-                        '<div class="updublistpeople" style="margin-top: 10px;margin-bottom:10px;">',
-                        '</div>',
-                    '</center>',
+                '<center>',
+                '<div class="updublistheader" style="margin-top: 10px;">',
+                '<h1>Updubs</h1>',
+                '</div>',
+                '<div class="updublistpeople" style="margin-top: 10px;margin-bottom:10px;">',
+                '</div>',
+                '</center>',
                 '</div>'
             ].join('');
             var downdubs = [
                 '<div class="downdublist" style="display: none;">',
-                    '<center>',
-                        '<div class="downdublistheader" style="margin-top: 10px;">',
-                            '<h1>Downdubs</h1>',
-                        '</div>',
-                        '<div class="downdublistpeople" style="margin-top: 10px;margin-bottom:10px;">',
-                        '</div>',
-                    '</center>',
+                '<center>',
+                '<div class="downdublistheader" style="margin-top: 10px;">',
+                '<h1>Downdubs</h1>',
+                '</div>',
+                '<div class="downdublistpeople" style="margin-top: 10px;margin-bottom:10px;">',
+                '</div>',
+                '</center>',
                 '</div>'
             ].join('');
             var dtapi = '<a class="dtapibtn" href="http://docs.dubtrackfmapiv11.apiary.io/" target="blank">Dubtrack API</a>';
@@ -102,147 +106,147 @@ if (!run) {
             var settingbtn = [
                 '<span class="chat-option-header">CMS</span>',
                 '<div class="chat-option-buttons cmsbtns">',
-                    '<span class="cmsbtns" onclick="functions.fade();">Main menu</span>',
-                    '<span class="cmsbtns" onclick="functions.chatmode();">Chat mode</span>',
+                '<span class="cmsbtns" onclick="functions.fade();">Main menu</span>',
+                '<span class="cmsbtns" onclick="functions.chatmode();">Chat mode</span>',
                 '</div>'
             ].join('');
             var welcome = [
                 '<li class="chat-welcome-message" style="text-align: center; color: #CCC;"><br><br><br>',
-                    '<span>Welcome '+Dubtrack.session.get('username')+'!</span><br>',
-                    '<span>CMS '+version+'</span><br>',
-                    '<span>'+motd+'</span><br><br>',
-                    '<span>For Bugs and Suggestions Please Go To:</span><br>',
-                    '<span>',
-                        '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_right.png" title=":point_right:" alt=":point_right:" align="absmiddle"></img>',
-                        '<a href="https://github.com/mitchdev/cms"> Our Github </a>',
-                        '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_left.png" title=":point_left:" alt=":point_left:" align="absmiddle"></img>',
-                    '</span><br><br><br>',
+                '<span>Welcome '+Dubtrack.session.get('username')+'!</span><br>',
+                '<span>CMS '+version+'</span><br>',
+                '<span>'+motd+'</span><br><br>',
+                '<span>For Bugs and Suggestions Please Go To:</span><br>',
+                '<span>',
+                '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_right.png" title=":point_right:" alt=":point_right:" align="absmiddle"></img>',
+                '<a href="https://github.com/mitchdev/cms"> Our Github </a>',
+                '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_left.png" title=":point_left:" alt=":point_left:" align="absmiddle"></img>',
+                '</span><br><br><br>',
                 '</li>'
             ].join('');
             var mainmenu = [
                 '<link rel="stylesheet" type="text/css" href="https://mitchdev.net/cms/css/toast.css">',
                 '<link rel="stylesheet" type="text/css" href="https://rawgit.com/Mitchdev/CMS/master/main.css">',
                 '<div class="main_content">',
-                    '<div class="headerbox" onclick="functions.menufade();">',
-                        '<span class="main_content_ver"><center>CMS</center></span>',
-                        '<span class="main_content_version"><center>'+version+'<br>'+motd+'<br><br>'+help+'</center></span>',
-                    '</div>',
-                    '<ul class="main_content_ul">',
-                        '<ul>',
-                            '<li onclick="functions.autovote();" class="main_content_li main_content_feature autovote">',
-                                '<p class="main_content_p">Autovote</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.clearchat();" class="main_content_li main_content_feature clearchat">',
-                                '<p class="main_content_p">Auto Clear Chat</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.workmode();" class="main_content_li main_content_feature workmode">',
-                                '<p class="main_content_p">Work Mode</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.chatmode();" class="main_content_li main_content_feature chatmode">',
-                                '<p class="main_content_p">Chat Mode</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.deletemsg();" class="main_content_li main_content_feature deletemsg">',
-                                '<p class="main_content_p">Hide Deleted Messages</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.roomcss();" class="main_content_li main_content_feature roomcss">',
-                                '<p class="main_content_p">Community Theme</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.userjoin();" class="main_content_li main_content_feature userjoin">',
-                                '<p class="main_content_p">Join Message</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.userleave();" class="main_content_li main_content_feature userleave">',
-                                '<p class="main_content_p">Leave Message</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.usergrab();" class="main_content_li main_content_feature usergrab">',
-                                '<p class="main_content_p">Grab Message</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.userudub();" class="main_content_li main_content_feature userudub">',
-                                '<p class="main_content_p">Up Dub Message</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.afkmsg();" class="main_content_li main_content_feature afkmsg">',
-                                '<p class="main_content_p">Custom Afk Message</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
-                            '</li>',
-                            '<div class="INPUT AFKMSG">',
-                                '<li>',
-                                    '<textarea class="input afk" placeholder="I am currently afk at the moment."></textarea>',
-                                    '<center class="edit">',
-                                        '<span class="CMSconfirm" onclick="functions.afkmsgc();" style="float: left;">Confirm</span>',
-                                        '<li class="afktoggle"><p onclick="functions.afktoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
-                                    '</center>',
-                                '</li>',
-                                '<br>',
-                            '</div>',
-                            '<li onclick="functions.cmen();" class="main_content_li main_content_feature cmen">',
-                                '<p class="main_content_p">Custom Mentions</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
-                            '</li>',
-                            '<div class="INPUT CMEN">',
-                                '<li>',
-                                    '<textarea class="input cmen" placeholder="bill, bob, john, jeff"></textarea>',
-                                    '<center class="edit">',
-                                        '<span class="CMSconfirm" onclick="functions.cmenc();" style="float: left;">Confirm</span>',
-                                        '<li class="cmentoggle"><p onclick="functions.cmentoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
-                                    '</center>',
-                                '</li>',
-                                '<br>',
-                            '</div>',
-                            '<li onclick="functions.bginput();" class="main_content_li main_content_feature backgroudme">',
-                                '<p class="main_content_p">Custom Background</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
-                            '</li>',
-                            '<div class="INPUT BG">',
-                                '<li>',
-                                    '<textarea class="input bg" placeholder="https://example.com/example.jpg"></textarea>',
-                                    '<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>',
-                                '</li>',
-                                '<br>',
-                            '</div>',
-                            '<li onclick="functions.cssinput();" class="main_content_li main_content_feature mycss">',
-                                '<p class="main_content_p">Custom CSS</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
-                            '</li>',
-                            '<div class="INPUT CSS">',
-                                '<li>',
-                                    '<textarea class="input css" placeholder="https://example.com/example.css"></textarea>',
-                                    '<center><span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span></center>',
-                                '</li>',
-                                '<br>',
-                            '</div>',
-                        '</ul>',
-                    '</ul>',
+                '<div class="headerbox" onclick="functions.menufade();">',
+                '<span class="main_content_ver"><center>CMS</center></span>',
+                '<span class="main_content_version"><center>'+version+'<br>'+motd+'<br><br>'+help+'</center></span>',
+                '</div>',
+                '<ul class="main_content_ul">',
+                '<ul>',
+                '<li onclick="functions.autovote();" class="main_content_li main_content_feature autovote">',
+                '<p class="main_content_p">Autovote</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.clearchat();" class="main_content_li main_content_feature clearchat">',
+                '<p class="main_content_p">Auto Clear Chat</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.workmode();" class="main_content_li main_content_feature workmode">',
+                '<p class="main_content_p">Work Mode</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.chatmode();" class="main_content_li main_content_feature chatmode">',
+                '<p class="main_content_p">Chat Mode</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.deletemsg();" class="main_content_li main_content_feature deletemsg">',
+                '<p class="main_content_p">Hide Deleted Messages</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.roomcss();" class="main_content_li main_content_feature roomcss">',
+                '<p class="main_content_p">Community Theme</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.userjoin();" class="main_content_li main_content_feature userjoin">',
+                '<p class="main_content_p">Join Message</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.userleave();" class="main_content_li main_content_feature userleave">',
+                '<p class="main_content_p">Leave Message</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.usergrab();" class="main_content_li main_content_feature usergrab">',
+                '<p class="main_content_p">Grab Message</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.userudub();" class="main_content_li main_content_feature userudub">',
+                '<p class="main_content_p">Up Dub Message</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '</li>',
+                '<li onclick="functions.afkmsg();" class="main_content_li main_content_feature afkmsg">',
+                '<p class="main_content_p">Custom Afk Message</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
+                '</li>',
+                '<div class="INPUT AFKMSG">',
+                '<li>',
+                '<textarea class="input afk" placeholder="I am currently afk at the moment."></textarea>',
+                '<center class="edit">',
+                '<span class="CMSconfirm" onclick="functions.afkmsgc();" style="float: left;">Confirm</span>',
+                '<li class="afktoggle"><p onclick="functions.afktoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
+                '</center>',
+                '</li>',
+                '<br>',
+                '</div>',
+                '<li onclick="functions.cmen();" class="main_content_li main_content_feature cmen">',
+                '<p class="main_content_p">Custom Mentions</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
+                '</li>',
+                '<div class="INPUT CMEN">',
+                '<li>',
+                '<textarea class="input cmen" placeholder="bill, bob, john, jeff"></textarea>',
+                '<center class="edit">',
+                '<span class="CMSconfirm" onclick="functions.cmenc();" style="float: left;">Confirm</span>',
+                '<li class="cmentoggle"><p onclick="functions.cmentoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
+                '</center>',
+                '</li>',
+                '<br>',
+                '</div>',
+                '<li onclick="functions.bginput();" class="main_content_li main_content_feature backgroudme">',
+                '<p class="main_content_p">Custom Background</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
+                '</li>',
+                '<div class="INPUT BG">',
+                '<li>',
+                '<textarea class="input bg" placeholder="https://example.com/example.jpg"></textarea>',
+                '<center><span class="CMSconfirm" onclick="functions.bgconfirm();">Confirm</span></center>',
+                '</li>',
+                '<br>',
+                '</div>',
+                '<li onclick="functions.cssinput();" class="main_content_li main_content_feature mycss">',
+                '<p class="main_content_p">Custom CSS</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
+                '</li>',
+                '<div class="INPUT CSS">',
+                '<li>',
+                '<textarea class="input css" placeholder="https://example.com/example.css"></textarea>',
+                '<center><span class="CMSconfirm" onclick="functions.cssconfirm();">Confirm</span></center>',
+                '</li>',
+                '<br>',
+                '</div>',
+                '</ul>',
+                '</ul>',
                 '</div>'
             ].join('');
             var userddub = [
                 '<li onclick="functions.userddub();" class="main_content_li main_content_feature userddub">',
-                    '<p class="main_content_p">Down Dub Message</p>',
-                    '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                '<p class="main_content_p">Down Dub Message</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                 '</li>'
             ].join('');
             var unmutebanall = [
                 '<li onclick="functions.unmuteconfirm();" class="main_content_li main_content_feature unmute">',
-                    '<p class="main_content_p">Unmute Everyone</p>',
-                    '<p class="main_content_off"><span class="CMSdisabled">Click</span></p>',
+                '<p class="main_content_p">Unmute Everyone</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Click</span></p>',
                 '</li>',
                 '<center class="CONFIRM UNMUTE">',
-                    '<span class="CMSconfirm" onclick="functions.unmuteall();">Confirm</span>',
+                '<span class="CMSconfirm" onclick="functions.unmuteall();">Confirm</span>',
                 '</center>',
                 '<li onclick="functions.unbanconfirm();" class="main_content_li main_content_feature unban">',
-                    '<p class="main_content_p">Unban Everyone</p>',
-                    '<p class="main_content_off"><span class="CMSdisabled">Click</span></p>',
+                '<p class="main_content_p">Unban Everyone</p>',
+                '<p class="main_content_off"><span class="CMSdisabled">Click</span></p>',
                 '</li>',
                 '<center class="CONFIRM UNBAN" style="margin-top: -10px;">',
-                    '<span class="CMSconfirm" onclick="functions.unbanall();">Confirm</span>',
+                '<span class="CMSconfirm" onclick="functions.unbanall();">Confirm</span>',
                 '</center>'
             ].join('');
             setTimeout(function() {
@@ -315,7 +319,7 @@ if (!run) {
                             Dubtrack.room.chat.unmuteUser(''+uuid+'');
                             functions.notification('success', 'You Successfully Unmuted Everyone');
                         } else {
-                            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">You do not have permission to perform this action</span></div></li>');
+                            functions.addToChat('<span class="system-userleave">You do not have permission to perform this action</span>');
                         }
                     });
                 }
@@ -331,7 +335,7 @@ if (!run) {
                             Dubtrack.room.chat.unbanUser(''+uuid+'');
                             functions.notification('success', 'You Successfully Unbanned Everyone');
                         } else {
-                            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">You do not have permission to perform this action</span></div></li>');
+                            functions.addToChat('<span class="system-userleave">You do not have permission to perform this action</span>');
                         }
                     });
                 }
@@ -542,7 +546,7 @@ if (!run) {
                     var url = content.match(/(@cms=)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/);
                     var append = url[0].split('@cms=');
                     $('head').append('<link class="CMScss" href="'+append[1]+'" rel="stylesheet" type="text/css">');
-                    });
+                });
                 functions.storage('css','true');
                 functions.on('.roomcss');
             } else {
@@ -566,8 +570,7 @@ if (!run) {
             }
         },
         Euserjoin: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userjoin">@'+e.user.username+' just joined</span></div></li>');
-            functions.stb();
+            functions.addToChat('<span class="system-userjoin">@'+e.user.username+' just joined</span>');
         },
         userleave: function() {
             if(!options.userleave) {
@@ -583,8 +586,7 @@ if (!run) {
             }
         },
         Euserleave: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">@'+e.user.username+' just left</span></div></li>');
-            functions.stb();
+            functions.addToChat('<span class="system-userleave">@'+e.user.username+' just left</span>');
         },
         usergrab: function() {
             if (!options.usergrab) {
@@ -600,8 +602,7 @@ if (!run) {
             }
         },
         Eusergrab: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-usergrab">@'+e.user.username+' grabbed this song</span></div></li>');
-            functions.stb();
+            functions.addToChat('<span class="system-usergrab">@'+e.user.username+' grabbed this song</span>');
         },
         userudub: function() {
             if(!options.userudub) {
@@ -618,8 +619,7 @@ if (!run) {
         },
         Euserudub: function(e) {
             if (e.dubtype === "updub") {
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userudub">@'+e.user.username+' updubbed this song</span></div></li>');
-                functions.stb();
+                functions.addToChat('<span class="system-userudub">@'+e.user.username+' updubbed this song</span>');
             }
         },
         userddub: function() {
@@ -644,8 +644,7 @@ if (!run) {
         Euserddub: function(e) {
             if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                 if (e.dubtype === "downdub") {
-                    $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userddub">@'+e.user.username+' downdubbed this song</span></div></li>');
-                    functions.stb();
+                    functions.addToChat('<span class="system-userddub">@'+e.user.username+' downdubbed this song</span>');
                 }
             }
         },
@@ -653,16 +652,14 @@ if (!run) {
             if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-mute">@'+muted+' was muted by @'+username+'</span></div></li>');
-                functions.stb();
+                functions.addToChat('<span class="system-mute">@'+muted+' was muted by @'+username+'</span>');
             }
         },
         Unmuted: function(e) {
             if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userunmute">@'+muted+' was unmuted by @'+username+'</span></div></li>');
-                functions.stb();
+                functions.addToChat('<span class="system-mute">@'+muted+' was unmuted by @'+username+'</span>');
             }
         },
         clearchat: function() {
@@ -702,38 +699,38 @@ if (!run) {
             if (message.indexOf('/help') >-1 && id === user) {
                 var help = [
                     '<li class="system">',
-                        '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
-                            '<br>',
-                        '<span>CMS HELP</span>',
-                            '<br>',
-                            '<br>',
-                        '<span>Autovote - Automatically updubs songs</span>',
-                            '<br>',
-                        '<span>Auto Clear Chat - Automatically clears the chat every 30mins</span>',
-                            '<br>',
-                        '<span>Workmode - Hides video and chat</span>',
-                            '<br>',
-                        '<span>Chatmode - Hides video</span>',
-                            '<br>',
-                        '<span>Hide Deleted Messages - Hides messages that have been deleted</span>',
-                            '<br>',
-                        '<span>Community Theme - Enable the room\'s custom theme</span>',
-                            '<br>',
-                        '<span>Join Message - Displays user join notifications in chat</span>',
-                            '<br>',
-                        '<span>Leave Message - Displays user leave notifications in chat</span>',
-                            '<br>',
-                        '<span>Grab Message - Displays grab notifications in chat</span>',
-                            '<br>',
-                        '<span>Updub Message - Displays updub notifications in chat</span>',
-                            '<br>',
-                        '<span>Custom Background - Paste an image link for a custom background</span>',
-                            '<br>',
-                        '<span>Custom Css - Paste a .css link for a custom theme</span>',
-                            '<br>',
-                            '<br>',
-                        '<span>/commands - Displays a list of CMS chat commands</span>',
-                            '<br>',
+                    '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
+                    '<br>',
+                    '<span>CMS HELP</span>',
+                    '<br>',
+                    '<br>',
+                    '<span>Autovote - Automatically updubs songs</span>',
+                    '<br>',
+                    '<span>Auto Clear Chat - Automatically clears the chat every 30mins</span>',
+                    '<br>',
+                    '<span>Workmode - Hides video and chat</span>',
+                    '<br>',
+                    '<span>Chatmode - Hides video</span>',
+                    '<br>',
+                    '<span>Hide Deleted Messages - Hides messages that have been deleted</span>',
+                    '<br>',
+                    '<span>Community Theme - Enable the room\'s custom theme</span>',
+                    '<br>',
+                    '<span>Join Message - Displays user join notifications in chat</span>',
+                    '<br>',
+                    '<span>Leave Message - Displays user leave notifications in chat</span>',
+                    '<br>',
+                    '<span>Grab Message - Displays grab notifications in chat</span>',
+                    '<br>',
+                    '<span>Updub Message - Displays updub notifications in chat</span>',
+                    '<br>',
+                    '<span>Custom Background - Paste an image link for a custom background</span>',
+                    '<br>',
+                    '<span>Custom Css - Paste a .css link for a custom theme</span>',
+                    '<br>',
+                    '<br>',
+                    '<span>/commands - Displays a list of CMS chat commands</span>',
+                    '<br>',
                     '</li>'
                 ].join('');
                 $('.chat-main').append(help);
@@ -742,17 +739,17 @@ if (!run) {
             if (message.indexOf('/commands') >-1 && id === user) {
                 var commands = [
                     '<li class="system">',
-                        '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
-                            '<br>',
-                        '<span>CMS COMMANDS</span>',
-                            '<br>',
-                            '<br>',
-                        '<span>/help - Displays help message</span>',
-                            '<br>',
-                        '<span>/whois [username/userid] - Displays info about a user</span>',
-                            '<br>',
-                        '<span>/whoami - Displays your info</span>',
-                            '<br>',
+                    '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
+                    '<br>',
+                    '<span>CMS COMMANDS</span>',
+                    '<br>',
+                    '<br>',
+                    '<span>/help - Displays help message</span>',
+                    '<br>',
+                    '<span>/whois [username/userid] - Displays info about a user</span>',
+                    '<br>',
+                    '<span>/whoami - Displays your info</span>',
+                    '<br>',
                     '</li>'
                 ].join('');
                 $('.chat-main').append(commands);
@@ -843,30 +840,30 @@ if (!run) {
                 }
                 var whois = [
                     '<li class="system">',
-                        '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
-                            '<br>',
-                        '<span>WHO IS - '+user+'</span>',
-                            '<br>',
-                            '<br>',
-                        '<span>GLOBAL INFO</span>',
-                            '<br>',
-                        '<span>Username: '+user+'</span>',
-                            '<br>',
-                        '<span>Uuid: '+uuid+'</span>',
-                            '<br>',
-                        '<span>Created: '+time+'</span>',
-                            '<br>',
-                        '<span>Locale: '+locale+'</span>',
-                            '<br>',
-                        '<span>Role: '+grole+'</span>',
-                            '<br>',
-                            '<br>',
-                        '<span>ROOM INFO</span>',
-                            '<br>',
-                        '<span>Role: '+rrole+'</span>',
-                            '<br>',
-                        '<span>Dubs: '+dubs+'</span>',
-                            '<br>',
+                    '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
+                    '<br>',
+                    '<span>WHO IS - '+user+'</span>',
+                    '<br>',
+                    '<br>',
+                    '<span>GLOBAL INFO</span>',
+                    '<br>',
+                    '<span>Username: '+user+'</span>',
+                    '<br>',
+                    '<span>Uuid: '+uuid+'</span>',
+                    '<br>',
+                    '<span>Created: '+time+'</span>',
+                    '<br>',
+                    '<span>Locale: '+locale+'</span>',
+                    '<br>',
+                    '<span>Role: '+grole+'</span>',
+                    '<br>',
+                    '<br>',
+                    '<span>ROOM INFO</span>',
+                    '<br>',
+                    '<span>Role: '+rrole+'</span>',
+                    '<br>',
+                    '<span>Dubs: '+dubs+'</span>',
+                    '<br>',
                     '</li>'
                 ].join('');
                 $('.chat-main').append(whois);
@@ -1038,11 +1035,11 @@ if (!run) {
             if (message.indexOf("/nu") >-1 && id === user) {
                 var msg = [
                     '<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert">',
-                        '<div class="toast toast-error" style="display: block;">',
-                            '<div class="toast-progress" style="width: 100%;"></div>',
-                            '<button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button>',
-                            '<div class="toast-message">New version of CMS!<br>Please Refresh To Update.</div>',
-                        '</div>',
+                    '<div class="toast toast-error" style="display: block;">',
+                    '<div class="toast-progress" style="width: 100%;"></div>',
+                    '<button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button>',
+                    '<div class="toast-message">New version of CMS!<br>Please Refresh To Update.</div>',
+                    '</div>',
                     '</div>'
                 ].join(' ');
                 $('body').append(msg);
@@ -1075,12 +1072,12 @@ if (!run) {
                 setTimeout(function(){
                     $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
                     $('#toast-container').fadeToggle('slow');
-                    functions.ntfp(); 
+                    functions.ntfp();
                 }, 2000);
             } else {
                 $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
                 $('#toast-container').fadeToggle('slow');
-                functions.ntfp();   
+                functions.ntfp();
             }
         },
         ntfp: function() {
@@ -1096,7 +1093,7 @@ if (!run) {
             }, 1000);
         }
     };
-    
+
     functions.notification('warning', 'Please Wait For CMS To Load');
     functions.mainmenu();
     setTimeout(function() {
