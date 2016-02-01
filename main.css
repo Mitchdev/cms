@@ -121,27 +121,30 @@
 
 /* CMS CHAT */
 .chat-system-loading,
-.system,
-.system-userudub,
-.system-userddub,
-.system-userjoin,
-.system-userleave {
+.system {
 	text-align: center;
-}
-.system,
-.system-userddub,
-.system-userleave {
 	font-weight: 700;
-	color: #FF4060;
 }
-.system-userudub,
-.system-userjoin {
-	font-weight: 700;
-	color: #93CC5A;
+.system {
+	color: #0ff;
+}
+.system-error {
+	color: #f0f;
+}
+.system-userudub {
+    color: #93CC5A;
+}
+.system-userddub {
+    color: #FF4060;
 }
 .system-usergrab {
-	font-weight: 700;
 	color: #CC5A93;
+}
+.system-userjoin {
+    color: #5A93CC;
+}
+.system-userleave {
+    color: #935ACC;
 }
 /* CMS CHAT */
 
