@@ -66,6 +66,9 @@ if (!run) {
             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text">' + data + '</div></li>');
             functions.stb();
         },
+	    userHaveAuthorityInRoom: function() {
+		    return Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id);
+	    },
         mainmenu: function() {
             var grabs = [
             '<div class="grablist" style="display: none;">',
@@ -254,7 +257,7 @@ if (!run) {
                 $(settingbtn).insertAfter('.chat-option-buttons-sound');
             }, 5000);
             setTimeout(function() {
-                if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+                if (functions.userHaveAuthorityInRoom()) {
                     $(userddub).insertAfter('.usergrab');
                 }
                 if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
@@ -275,7 +278,7 @@ if (!run) {
                     $('.INPUT').hide();
                 }, 6000);
                 setTimeout(function() {
-                    if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+                    if (functions.userHaveAuthorityInRoom()) {
                         $(downdubs).insertAfter('.updublist');
                     }
                 }, 4000);
@@ -623,7 +626,7 @@ if (!run) {
 	        }
         },
         userddub: function() {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHaveAuthorityInRoom()) {
                 if(!options.userddub) {
                     options.userddub = true;
                     functions.on('.userddub');
@@ -642,21 +645,21 @@ if (!run) {
             }
         },
         Euserddub: function(e) {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHaveAuthorityInRoom()) {
                 if (e.dubtype === "downdub") {
 	                functions.addToChat('<span class="system-userddub">@'+e.user.username+' downdubbed this song</span>');
                 }
             }
         },
         Muted: function(e) {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHaveAuthorityInRoom()) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
 	            functions.addToChat('<span class="system-mute">@'+muted+' was muted by @'+username+'</span>');
             }
         },
         Unmuted: function(e) {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHaveAuthorityInRoom()) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
 	            functions.addToChat('<span class="system-mute">@'+muted+' was unmuted by @'+username+'</span>');
