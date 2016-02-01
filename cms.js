@@ -407,7 +407,7 @@ if (!run) {
             $('#user-grab').remove();
         },
         deletemsg: function() {
-            if (!options.delmsgtoggle) {
+            if (!options.delm) {
                 functions.on('.deletemsg');
                 options.delm = true;
                 functions.delm();
