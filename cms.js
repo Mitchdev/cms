@@ -120,7 +120,7 @@ if (!run) {
                     '<span>'+motd+'</span><br><br>',
                     '<span>For Bugs and Suggestions Please Go To:</span><br>',
                     '<span>',
-                        '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_right.png" title=":point_right:" alt=":point_right:" align="absmiddle"></img>',
+                        '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_right.png" title=":point_right:" alt=":point_right:" align="absmiddle" />',
                         '<a href="https://github.com/mitchdev/cms"> Our Github </a>',
                         '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_left.png" title=":point_left:" alt=":point_left:" align="absmiddle" />',
                     '</span><br><br><br>',
