@@ -238,6 +238,10 @@ ul.avatar-list li.user-kris p.dubs:hover:before {
 ul.avatar-list li.user-mitch p.dubs:hover:before {
 	content: "Developer & Owner - " !important;
 }
+ul.avatar-list li.user-brcr p.dubs:hover:before {
+	content: "Contributor - " !important;
+}
+ul.avatar-list li.user-brcr p.dubs:before,
 ul.avatar-list li.user-kris p.dubs:before,
 ul.avatar-list li.user-mitch p.dubs:before {
 	content: "CMS - " !important;
