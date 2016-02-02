@@ -317,9 +317,9 @@ if (!run) {
             $.get('https://api.dubtrack.fm/room/'+roomid+'/users/mute').then(function(r) {
                 if (r.code === 200) {
                     r.data.forEach(function(i) {
-                        var uuid = i._user._id;
+                        var uuid = i._user._id.toString();
                         if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                            Dubtrack.room.chat.unmuteUser(''+uuid+'');
+                            Dubtrack.room.chat.unmuteUser(uuid);
                             functions.notification('success', 'You Successfully Unmuted Everyone');
                         } else {
 	                        functions.addToChat('<span class="system-userleave">You do not have permission to perform this action</span>');
@@ -333,9 +333,9 @@ if (!run) {
             $.get('https://api.dubtrack.fm/room/'+roomid+'/users/ban').then(function(r) {
                 if (r.code === 200) {
                     r.data.forEach(function(i) {
-                        var uuid = i._user._id;
+                        var uuid = i._user._id.toString();
                         if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                            Dubtrack.room.chat.unbanUser(''+uuid+'');
+                            Dubtrack.room.chat.unbanUser(uuid);
                             functions.notification('success', 'You Successfully Unbanned Everyone');
                         } else {
 	                        functions.addToChat('<span class="system-userleave">You do not have permission to perform this action</span>');
@@ -359,8 +359,8 @@ if (!run) {
             var user = e.user.username;
             setTimeout(function() {
                 if (e.dubtype === "downdub") {
-                    $('.dd-user-'+user+'').remove();
-                    $('.ud-user-'+user+'').remove();
+                    $('.dd-user-'+user).remove();
+                    $('.ud-user-'+user).remove();
                     $('.downdublistpeople').append('<p id="user-downdub" class="dd-user-'+user+'">@'+user+'</p>');
                 }
             }, 1000);
@@ -383,8 +383,8 @@ if (!run) {
             var user = e.user.username;
             setTimeout(function() {
                 if (e.dubtype === "updub") {
-                    $('.ud-user-'+user+'').remove();
-                    $('.dd-user-'+user+'').remove();
+                    $('.ud-user-'+user).remove();
+                    $('.dd-user-'+user).remove();
                     $('.updublistpeople').append('<p id="user-updub" class="ud-user-'+user+'">@'+user+'</p>');
                 }
             }, 1000);
@@ -406,7 +406,7 @@ if (!run) {
         grablist: function(e) {
             var user = e.user.username;
             setTimeout(function() {
-                $('.g-user-'+user+'').remove();
+                $('.g-user-'+user).remove();
                 $('.grablistpeople').append('<p id="user-grab" class="g-user-'+user+'">@'+user+'</p>');
             }, 1000);
         },
@@ -440,7 +440,7 @@ if (!run) {
                 $('.CMSccss').remove();
                 $('head').append('<link class="CMSccss" href="'+text+'" rel="stylesheet" type="text/css">');
                 $('.INPUT.CSS').hide();
-                functions.notification('info', 'Custom Css Set To<br>'+text+'');
+                functions.notification('info', 'Custom Css Set To<br>'+text);
             }
         },
         cssinput: function() {
@@ -464,8 +464,8 @@ if (!run) {
                 $('.CMSbg').remove();
                 $('body').append('<div class="CMSbg" style="background: url('+text+');"></div>');
                 $('.INPUT.BG').hide();
-                
-                functions.notification('info', 'Custom Background Set To<br>'+text+'');
+
+                functions.notification('info', 'Custom Background Set To<br>'+text);
             }
         },
         bginput: function() {
@@ -799,11 +799,11 @@ if (!run) {
                 var user = i.username;
                 var uuid = i._id;
                 var locale = i.userInfo.locale;
-                var cr = ''+i.created+'';
+                var cr = i.created.toString();
                 var created = cr.substr(0, cr.length-3);
                 var rrole = 'user';
                 var grole = 'user';
-                var dubs = Dubtrack.room.users.getDubs(''+uuid+'');
+                var dubs = Dubtrack.room.users.getDubs(uuid);
 
                 var d = new Date(created * 1000),
                     yyyy = d.getFullYear(),
@@ -820,18 +820,18 @@ if (!run) {
                 }
 	            time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
 
-                if (Dubtrack.room.users.getIfOwner(''+uuid+'')) {
+                if (Dubtrack.room.users.getIfOwner(uuid)) {
                     rrole = 'co-owner';
-                } else if (Dubtrack.room.users.getIfManager(''+uuid+'')) {
+                } else if (Dubtrack.room.users.getIfManager(uuid)) {
                     rrole = 'manager';
-                } else if (Dubtrack.room.users.getIfMod(''+uuid+'')) {
+                } else if (Dubtrack.room.users.getIfMod(uuid)) {
                     rrole = 'mod';
-                } else if (Dubtrack.room.users.getIfVIP(''+uuid+'')) {
+                } else if (Dubtrack.room.users.getIfVIP(uuid)) {
                     rrole = 'vip';
-                } else if (Dubtrack.room.users.getIfResidentDJ(''+uuid+'')) {
+                } else if (Dubtrack.room.users.getIfResidentDJ(uuid)) {
                     rrole = 'rdj';
                 }
-                if (Dubtrack.helpers.isDubtrackAdmin(''+uuid+'')) {
+                if (Dubtrack.helpers.isDubtrackAdmin(uuid)) {
                     grole = 'admin';
                 }
                 var whois = [
@@ -878,7 +878,6 @@ if (!run) {
                     mm = ('0' + (d.getMonth() + 1)).slice(-2),
                     dd = ('0' + d.getDate()).slice(-2),
                     hh = d.getHours(),
-                    h = hh,
                     ampm = 'AM',
                     min = ('0' + d.getMinutes()).slice(-2),
                     time;
@@ -914,7 +913,7 @@ if (!run) {
             if (text !== null) {
                 functions.storage('cmen',text);
                 $('.INPUT.CMEN').hide();
-                functions.notification('info', 'Custom Mentions Set To<br>'+text+'');
+                functions.notification('info', 'Custom Mentions Set To<br>'+text);
             }
         },
         cmench: function(e) {
@@ -949,7 +948,7 @@ if (!run) {
             if (text !== null) {
                 functions.storage('afkmsg',text);
                 $('.INPUT.AFKMSG').hide();
-                functions.notification('info', 'Afk Message Set To<br>'+text+'');
+                functions.notification('info', 'Afk Message Set To<br>'+text);
             }
         },
         afkch: function(e) {
@@ -1157,7 +1156,7 @@ if (!run) {
         functions.updateafkmsg();
         functions.updatecss();
         setTimeout(function() {
-            functions.notification('success', 'CMS Has Successfully Loaded<br>Welcome '+Dubtrack.session.get('username')+'');
+            functions.notification('success', 'CMS Has Successfully Loaded<br>Welcome '+Dubtrack.session.get('username'));
         }, 5000);
     }, 6000);
 } else {
