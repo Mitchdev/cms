@@ -284,12 +284,15 @@ if (!run) {
                 }, 4000);
             }, 1000);
         },
+	    hideMenuInputs: function() {
+		    $('.INPUT.CMEN').hide();
+		    $('.INPUT.CSS').hide();
+		    $('.INPUT.BG').hide();
+		    $('.INPUT.AFKMSG').hide();
+	    },
         unmuteconfirm: function() {
             if (!options.confirmunmute) {
-                $('.INPUT.CMEN').hide();
-                $('.INPUT.CSS').hide();
-                $('.INPUT.BG').hide();
-                $('.INPUT.AFKMSG').hide();
+                functions.hideMenuInputs();
                 $('.CONFIRM.UNMUTE').show();
                 $('.CONFIRM.UNBAN').hide();
                 options.confirmunmute = true;
@@ -300,10 +303,7 @@ if (!run) {
         },
         unbanconfirm: function() {
             if (!options.confirmunban) {
-                $('.INPUT.CMEN').hide();
-                $('.INPUT.CSS').hide();
-                $('.INPUT.BG').hide();
-                $('.INPUT.AFKMSG').hide();
+				functions.hideMenuInputs();
                 $('.CONFIRM.UNMUTE').hide();
                 $('.CONFIRM.UNBAN').show();
                 options.confirmunban = true;
