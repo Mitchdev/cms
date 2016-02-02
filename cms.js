@@ -793,7 +793,7 @@ if (!run) {
         who: function(username) {
             $.ajax({
                 type: 'GET',
-                url: 'https://api.dubtrack.fm/user/'+username,
+                url: 'https://api.dubtrack.fm/user/'+username
             }).done(function(r) {
 
                 var i = r.data;
