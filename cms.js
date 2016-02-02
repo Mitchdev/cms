@@ -788,6 +788,20 @@ if (!run) {
                 }
             });
         },
+	    formatDate: function(date) {
+		    var yyyy = date.getFullYear();
+		    var mm = ('0' + (date.getMonth() + 1)).slice(-2);
+			var dd = ('0' + date.getDate()).slice(-2);
+
+		    var hours = date.getHours();
+		    var minutes = date.getMinutes();
+		    var ampm = hours >= 12 ? 'pm' : 'am';
+		    hours = hours % 12;
+		    hours = hours ? hours : 12; // the hour '0' should be '12'
+		    minutes = minutes < 10 ? '0'+minutes : minutes;
+		    var strTime = hours + ':' + minutes + ' ' + ampm;
+		    return yyyy + '/' + mm + '/' + dd + ' - ' + strTime;
+	    },
         who: function(username) {
             $.ajax({
                 type: 'GET',
@@ -805,20 +819,7 @@ if (!run) {
                 var grole = 'user';
                 var dubs = Dubtrack.room.users.getDubs(uuid);
 
-                var d = new Date(created * 1000),
-                    yyyy = d.getFullYear(),
-                    mm = ('0' + (d.getMonth() + 1)).slice(-2),
-                    dd = ('0' + d.getDate()).slice(-2),
-                    hh = d.getHours(),
-                    ampm = 'AM',
-                    min = ('0' + d.getMinutes()).slice(-2),
-                    time;
-                if (hh > 12) {
-                    ampm = 'PM';
-                } else if (hh === 12) {
-                    ampm = 'PM';
-                }
-	            time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
+	            var time = functions.formatDate(new Date(created * 1000));
 
                 if (Dubtrack.room.users.getIfOwner(uuid)) {
                     rrole = 'co-owner';
@@ -873,21 +874,7 @@ if (!run) {
                 var msg = e.message;
                 var c = ''+e.time+'';
                 var cr = c.substr(0, c.length-3);
-                var d = new Date(cr * 1000),
-                    yyyy = d.getFullYear(),
-                    mm = ('0' + (d.getMonth() + 1)).slice(-2),
-                    dd = ('0' + d.getDate()).slice(-2),
-                    hh = d.getHours(),
-                    ampm = 'AM',
-                    min = ('0' + d.getMinutes()).slice(-2),
-                    time;
-                if (hh > 12) {
-                    ampm = 'PM';
-                } else if (hh === 12) {
-                    ampm = 'PM';
-                }
-
-                time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
+                var time = functions.formatDate(new Date(cr * 1000));
                 console.info('%cNAME: '+username+' | ID: '+userid+' | TIME: '+time, 'font-weight: 600;'+'color: #aaaaac;');
                 console.log('%cMESSAGE: "'+msg+'"', 'font-size: 1.1em;');
                 console.log(' ');
