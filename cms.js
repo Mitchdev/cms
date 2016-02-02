@@ -464,9 +464,7 @@ if (!run) {
                 $('.CMSbg').remove();
                 $('body').append('<div class="CMSbg" style="background: url('+text+');"></div>');
                 $('.INPUT.BG').hide();
-                if(text.length > 50) {
-                    functions.notification('info', 'Custom Background Set To<br>'+text+'');
-                }
+                
                 functions.notification('info', 'Custom Background Set To<br>'+text+'');
             }
         },
@@ -549,7 +547,7 @@ if (!run) {
                     var url = content.match(/(@cms=)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/);
                     var append = url[0].split('@cms=');
                     $('head').append('<link class="CMScss" href="'+append[1]+'" rel="stylesheet" type="text/css">');
-                    });
+                });
                 functions.storage('css','true');
                 functions.on('.roomcss');
             } else {
