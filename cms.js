@@ -18,11 +18,11 @@ with permission from the owners of the dubx project
 var run;
 if (!run) {
     run = true;
-    var help = '/help - For help about cms!';
-    var motd = 'Custom Mentions!';
-    var version = 'Version - 11.8.6';
+    var motd = 'Updates Updates ( ͡° ͜ʖ ͡° )';
+    var version = 'Version - 11.8.9';
     var options = {
         autovote: false,
+        randomvote: false,
         workmode: false,
         chatmode: false,
         roomcss: false,
@@ -36,19 +36,18 @@ if (!run) {
         workfade: false,
         lights: false,
         delmsg: false,
-        delm: false,
         clearchat: false,
         cc: false,
         cmen: false,
         afkmsg: false,
-        confirmunban: false,
-        confirmunmute: false,
         updubhover: false,
         downdubhover: false,
         grabhover: false,
         cmentoggle: false,
         afktoggle: false,
         afkto: false,
+        autojoin: false,
+        hidebackground: false,
         snooze: false,
         currentVol: null,
     };
@@ -112,9 +111,8 @@ if (!run) {
                     '<span>CMS '+version+'</span><br>',
                     '<span>'+motd+'</span><br><br>',
                     '<span>For Bugs and Suggestions Please Go To:</span><br>',
-                    '<span>',
                         '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_right.png" title=":point_right:" alt=":point_right:" align="absmiddle"></img>',
-                        '<a href="https://github.com/mitchdev/cms"> Our Github </a>',
+                        '<a target="_blank" href="https://github.com/mitchdev/cms"> Our Github </a>',
                         '<img class="emoji" src="https://dubtrack-fm.s3.amazonaws.com/assets/emoji/images/emoji/point_left.png" title=":point_left:" alt=":point_left:" align="absmiddle"></img>',
                     '</span><br><br><br>',
                 '</li>'
@@ -125,12 +123,20 @@ if (!run) {
                 '<div class="main_content">',
                     '<div class="headerbox" onclick="functions.menufade();">',
                         '<span class="main_content_ver"><center>CMS</center></span>',
-                        '<span class="main_content_version"><center>'+version+'<br>'+motd+'<br><br>'+help+'</center></span>',
+                        '<span class="main_content_version"><center>'+version+'<br>'+motd+'<br><br>/help - For help about cms!</center></span>',
                     '</div>',
                     '<ul class="main_content_ul">',
                         '<ul>',
                             '<li onclick="functions.autovote();" class="main_content_li main_content_feature autovote">',
                                 '<p class="main_content_p">Autovote</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.randomautovote();" class="main_content_li main_content_feature randomvote">',
+                                '<p class="main_content_p">Random Autovote</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.aj();" class="main_content_li main_content_feature autojoin">',
+                                '<p class="main_content_p">Auto Join</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
                             '<li onclick="functions.clearchat();" class="main_content_li main_content_feature clearchat">',
@@ -145,8 +151,20 @@ if (!run) {
                                 '<p class="main_content_p">Chat Mode</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
-                            '<li onclick="functions.deletemsg();" class="main_content_li main_content_feature deletemsg">',
+                            '<li onclick="functions.delmsgtoggle();" class="main_content_li main_content_feature delmsgtoggle">',
                                 '<p class="main_content_p">Hide Deleted Messages</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.acm();" class="main_content_li main_content_feature acm">',
+                                '<p class="main_content_p">Auto Complete Mentions</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.ace();" class="main_content_li main_content_feature ace">',
+                                '<p class="main_content_p">Auto Complete Emotes</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.hidebackground();" class="main_content_li main_content_feature hidebackground">',
+                                '<p class="main_content_p">Hide Background</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
                             '<li onclick="functions.roomcss();" class="main_content_li main_content_feature roomcss">',
@@ -229,37 +247,16 @@ if (!run) {
                     '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                 '</li>'
             ].join('');
-            var unmutebanall = [
-                '<li onclick="functions.unmuteconfirm();" class="main_content_li main_content_feature unmute">',
-                    '<p class="main_content_p">Unmute Everyone</p>',
-                    '<p class="main_content_off"><span class="CMSdisabled">Click</span></p>',
-                '</li>',
-                '<center class="CONFIRM UNMUTE">',
-                    '<span class="CMSconfirm" onclick="functions.unmuteall();">Confirm</span>',
-                '</center>',
-                '<li onclick="functions.unbanconfirm();" class="main_content_li main_content_feature unban">',
-                    '<p class="main_content_p">Unban Everyone</p>',
-                    '<p class="main_content_off"><span class="CMSdisabled">Click</span></p>',
-                '</li>',
-                '<center class="CONFIRM UNBAN" style="margin-top: -10px;">',
-                    '<span class="CMSconfirm" onclick="functions.unbanall();">Confirm</span>',
-                '</center>'
-            ].join('');
             setTimeout(function() {
                 $('.chat-main').append(welcome);
                 $(settingbtn).insertAfter('.chat-option-buttons-sound');
+                if (functions.userHasPerm()) {
+                    $(userddub).insertAfter('.usergrab');
+                    $(downdubs).insertAfter('.updublist');
+                }
             }, 5000);
             setTimeout(function() {
-                if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                    $(userddub).insertAfter('.usergrab');
-                }
-                if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                    $(unmutebanall).insertAfter('.INPUT.CSS');
-                    $('.CONFIRM').hide();
-                }
-            }, 4000);
-            setTimeout(function() {
-                $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" class="eta">ETA</span>');
+                $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" onclick="functions.eta();" class="eta">ETA</span>');
                 $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" onclick="functions.snooze();" class="snooze">SNOOZE</span>');
                 $(dtapi).insertAfter('#main-menu-left .navigate.room-active-link');
                 $(ebtn).insertAfter('#main-menu-left .navigate.lobby-link');
@@ -270,72 +267,7 @@ if (!run) {
                 setTimeout(function() {
                     $('.INPUT').hide();
                 }, 6000);
-                setTimeout(function() {
-                    if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                        $(downdubs).insertAfter('.updublist');
-                    }
-                }, 4000);
             }, 1000);
-        },
-        unmuteconfirm: function() {
-            if (!options.confirmunmute) {
-                $('.INPUT.CMEN').hide();
-                $('.INPUT.CSS').hide();
-                $('.INPUT.BG').hide();
-                $('.INPUT.AFKMSG').hide();
-                $('.CONFIRM.UNMUTE').show();
-                $('.CONFIRM.UNBAN').hide();
-                options.confirmunmute = true;
-            } else {
-                $('.CONFIRM.UNMUTE').hide();
-                options.confirmunmute = false;
-            }
-        },
-        unbanconfirm: function() {
-            if (!options.confirmunban) {
-                $('.INPUT.CMEN').hide();
-                $('.INPUT.CSS').hide();
-                $('.INPUT.BG').hide();
-                $('.INPUT.AFKMSG').hide();
-                $('.CONFIRM.UNMUTE').hide();
-                $('.CONFIRM.UNBAN').show();
-                options.confirmunban = true;
-            } else {
-                $('.CONFIRM.UNBAN').hide();
-                options.confirmunban = false;
-            }
-        },
-        unmuteall: function() {
-            var roomid = Dubtrack.room.model.id;
-            $.get('https://api.dubtrack.fm/room/'+roomid+'/users/mute').then(function(r) {
-                if (r.code === 200) {
-                    r.data.forEach(function(i) {
-                        var uuid = i._user._id;
-                        if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                            Dubtrack.room.chat.unmuteUser(''+uuid+'');
-                            functions.notification('success', 'You Successfully Unmuted Everyone');
-                        } else {
-                            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">You do not have permission to perform this action</span></div></li>');
-                        }
-                    });
-                }
-            });
-        },
-        unbanall: function() {
-            var roomid = Dubtrack.room.model.id;
-            $.get('https://api.dubtrack.fm/room/'+roomid+'/users/ban').then(function(r) {
-                if (r.code === 200) {
-                    r.data.forEach(function(i) {
-                        var uuid = i._user._id;
-                        if (Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
-                            Dubtrack.room.chat.unbanUser(''+uuid+'');
-                            functions.notification('success', 'You Successfully Unbanned Everyone');
-                        } else {
-                            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">You do not have permission to perform this action</span></div></li>');
-                        }
-                    });
-                }
-            });
         },
         hovertoggledowndub: function() {
             $('.dubdown').hover(function() {
@@ -406,22 +338,22 @@ if (!run) {
         updategrablist: function() {
             $('#user-grab').remove();
         },
-        deletemsg: function() {
-            if (!options.delm) {
-                functions.on('.deletemsg');
-                options.delm = true;
-                functions.delm();
+        delmsgtoggle: function() {
+            if (!options.delmsg) {
+                functions.on('.delmsgtoggle');
+                options.delmsg = true;
+                functions.delmsg();
                 functions.storage('delmsg', 'true');
             } else {
-                functions.off('.deletemsg');
+                functions.off('.delmsgtoggle');
                 functions.storage('delmsg', 'false');
-                options.delm = false;
+                options.delmsg = false;
                 $('.deleted-message').show();
             }
         },
-        delm: function() {
+        delmsg: function() {
             setInterval(function() {
-                if (options.delm) {
+                if (options.delmsg) {
                     $('.deleted-message').hide();
                 }
             }, 2000);
@@ -433,7 +365,12 @@ if (!run) {
                 $('.CMSccss').remove();
                 $('head').append('<link class="CMSccss" href="'+text+'" rel="stylesheet" type="text/css">');
                 $('.INPUT.CSS').hide();
-                functions.notification('info', 'Custom Css Set To<br>'+text+'');
+                if(text.length < 50 && text.length !== 0 || text.length === 50) {
+                    functions.notification('info', 'Custom CSS Set To<br>'+text+'');
+                } else if (text.length !== 0) {
+                    var shorttext = $('.input.css').val().slice(0,50);
+                    functions.notification('info', 'Custom CSS Set To<br>'+shorttext+'...');
+                }
             }
         },
         cssinput: function() {
@@ -442,8 +379,6 @@ if (!run) {
                 $('.INPUT.CSS').show();
                 $('.INPUT.BG').hide();
                 $('.INPUT.AFKMSG').hide();
-                $('.CONFIRM.UNMUTE').hide();
-                $('.CONFIRM.UNBAN').hide();
                 options.inputcss = true;
             } else {
                 $('.INPUT.CSS').hide();
@@ -457,10 +392,12 @@ if (!run) {
                 $('.CMSbg').remove();
                 $('body').append('<div class="CMSbg" style="background: url('+text+');"></div>');
                 $('.INPUT.BG').hide();
-                if(text.length > 50) {
+                if(text.length < 50 && text.length !== 0 || text.length === 50) {
                     functions.notification('info', 'Custom Background Set To<br>'+text+'');
+                } else if (text.length !== 0) {
+                    var shorttext = $('.input.bg').val().slice(0,50);
+                    functions.notification('info', 'Custom Background Set To<br>'+shorttext+'...');
                 }
-                functions.notification('info', 'Custom Background Set To<br>'+text+'');
             }
         },
         bginput: function() {
@@ -469,8 +406,6 @@ if (!run) {
                 $('.INPUT.BG').show();
                 $('.INPUT.AFKMSG').hide();
                 $('.INPUT.CSS').hide();
-                $('.CONFIRM.UNMUTE').hide();
-                $('.CONFIRM.UNBAN').hide();
                 options.inputbg = true;
             } else {
                 $('.INPUT.BG').hide();
@@ -486,22 +421,54 @@ if (!run) {
         storage: function(theclass,state) {
             localStorage.setItem(theclass,state);
         },
-        vote: function() {
-            setTimeout(function() {
-                $('.dubup').click();
-            }, 1500);
+        vote: function(e) {
+            if (e.startTime < 5) {
+                if (options.randomvote) {
+                    var min = $('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text();
+                    var sec = $('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.sec').text();
+                    var seconds = 60 * min + sec;
+                    var random = Math.floor(Math.random() * seconds) - 5;
+                    var timeout = ''+random+'000';
+                    var intomin = random / 60;
+                    functions.notification('info', 'UPDUB: '+intomin+' Minutes');
+                    setTimeout(function() {
+                        Dubtrack.playerController.voteUpAction();
+                    }, timeout);
+                } else if (options.autovote) {
+                    Dubtrack.playerController.voteUpAction();
+                }
+            }
+        },
+        randomautovote: function() {
+            if (!options.randomvote) {
+                options.randomvote = true;
+                functions.storage('randomvote','true');
+                functions.on('.randomvote');
+                if (options.autovote) {
+                    options.autovote = false;
+                    functions.storage('vote','false');
+                    functions.off('.autovote');
+                }
+            } else {
+                options.randomvote = false;
+                functions.storage('randomvote','false');
+                functions.off('.randomvote');
+            }
         },
         autovote: function() {
             if (!options.autovote) {
                 options.autovote = true;
-                functions.storage('autovote','true');
+                functions.storage('vote','true');
                 functions.on('.autovote');
-                Dubtrack.Events.bind("realtime:room_playlist-update", functions.vote);
+                if (options.randomvote) {
+                    options.randomvote = false;
+                    functions.storage('randomvote','false');
+                    functions.off('.randomvote');
+                }
             } else {
                 options.autovote = false;
-                functions.storage('autovote','false');
+                functions.storage('vote','false');
                 functions.off('.autovote');
-                Dubtrack.Events.unbind("realtime:room_playlist-update", functions.vote);
             }
         },
         workmode: function() {
@@ -542,7 +509,7 @@ if (!run) {
                     var url = content.match(/(@cms=)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/);
                     var append = url[0].split('@cms=');
                     $('head').append('<link class="CMScss" href="'+append[1]+'" rel="stylesheet" type="text/css">');
-                    });
+                });
                 functions.storage('css','true');
                 functions.on('.roomcss');
             } else {
@@ -566,8 +533,7 @@ if (!run) {
             }
         },
         Euserjoin: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userjoin">@'+e.user.username+' just joined</span></div></li>');
-            functions.stb();
+            functions.addToChat('<span class="system-userjoin">@'+e.user.username+' just joined</span>');
         },
         userleave: function() {
             if(!options.userleave) {
@@ -583,8 +549,7 @@ if (!run) {
             }
         },
         Euserleave: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userleave">@'+e.user.username+' just left</span></div></li>');
-            functions.stb();
+            functions.addToChat('<span class="system-userleave">@'+e.user.username+' just left</span>');
         },
         usergrab: function() {
             if (!options.usergrab) {
@@ -600,8 +565,7 @@ if (!run) {
             }
         },
         Eusergrab: function(e) {
-            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-usergrab">@'+e.user.username+' grabbed this song</span></div></li>');
-            functions.stb();
+            functions.addToChat('<span class="system-usergrab">@'+e.user.username+' grabbed this song</span>');
         },
         userudub: function() {
             if(!options.userudub) {
@@ -618,12 +582,11 @@ if (!run) {
         },
         Euserudub: function(e) {
             if (e.dubtype === "updub") {
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userudub">@'+e.user.username+' updubbed this song</span></div></li>');
-                functions.stb();
+                functions.addToChat('<span class="system-userudub">@'+e.user.username+' updubbed this song</span>');
             }
         },
         userddub: function() {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHasPerm()) {
                 if(!options.userddub) {
                     options.userddub = true;
                     functions.on('.userddub');
@@ -642,27 +605,24 @@ if (!run) {
             }
         },
         Euserddub: function(e) {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHasPerm()) {
                 if (e.dubtype === "downdub") {
-                    $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userddub">@'+e.user.username+' downdubbed this song</span></div></li>');
-                    functions.stb();
+                    functions.addToChat('<span class="system-userddub">@'+e.user.username+' downdubbed this song</span>');
                 }
             }
         },
         Muted: function(e) {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHasPerm()) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-mute">@'+muted+' was muted by @'+username+'</span></div></li>');
-                functions.stb();
+                functions.addToChat('<span class="system-mute">@'+muted+' was muted by @'+username+'</span>');
             }
         },
         Unmuted: function(e) {
-            if (Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id)) {
+            if (functions.userHasPerm()) {
                 var username = e.user.username;
                 var muted = e.mutedUser.username;
-                $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text"><span class="system-userunmute">@'+muted+' was unmuted by @'+username+'</span></div></li>');
-                functions.stb();
+                functions.addToChat('<span class="system-mute">@'+muted+' was unmuted by @'+username+'</span>');
             }
         },
         clearchat: function() {
@@ -707,29 +667,7 @@ if (!run) {
                         '<span>CMS HELP</span>',
                             '<br>',
                             '<br>',
-                        '<span>Autovote - Automatically updubs songs</span>',
-                            '<br>',
-                        '<span>Auto Clear Chat - Automatically clears the chat every 30mins</span>',
-                            '<br>',
-                        '<span>Workmode - Hides video and chat</span>',
-                            '<br>',
-                        '<span>Chatmode - Hides video</span>',
-                            '<br>',
-                        '<span>Hide Deleted Messages - Hides messages that have been deleted</span>',
-                            '<br>',
-                        '<span>Community Theme - Enable the room\'s custom theme</span>',
-                            '<br>',
-                        '<span>Join Message - Displays user join notifications in chat</span>',
-                            '<br>',
-                        '<span>Leave Message - Displays user leave notifications in chat</span>',
-                            '<br>',
-                        '<span>Grab Message - Displays grab notifications in chat</span>',
-                            '<br>',
-                        '<span>Updub Message - Displays updub notifications in chat</span>',
-                            '<br>',
-                        '<span>Custom Background - Paste an image link for a custom background</span>',
-                            '<br>',
-                        '<span>Custom Css - Paste a .css link for a custom theme</span>',
+                        '<span><a target="_blank" href="https://mitchdev.net/cms/o/">CMS Options Help</a></span>',
                             '<br>',
                             '<br>',
                         '<span>/commands - Displays a list of CMS chat commands</span>',
@@ -765,35 +703,36 @@ if (!run) {
                     functions.who(username);
                 });
             }
+            if (message.indexOf("/whois @") === 0 && id === user) {
+                message.replace(/(@[A-Za-z0-9_.]+)/g, function(str) {
+                    var name = ''+str+''.replace("@", "");
+                    var username = name.substr(1);
+                    functions.who(username);
+                });
+            }
             if (message.indexOf("/whoami") >-1 && id === user) {
                 var username = Dubtrack.session.get('username');
                 functions.who(username);
             }
             if (message.indexOf("/eta") >-1 && id === user) {
-                var t = 4;
-                var ct = parseInt($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
-                var bd = parseInt($('.queue-position').text());
-                var bt = (bd * t - t) + ct;
-                functions.eta(bt);
+                functions.eta();
             }
         },
-        etaclick: function() {
-            $('.eta').click(function() {
-                var t = 4;
-                var ct = parseInt($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
-                var bd = parseInt($('.queue-position').text());
-                var bt = (bd * t - t) + ct;
-                if (bt >= 0) {
-                    functions.notification('info', 'ETA: Less than '+bt+' Minutes');
-                } else {
-                    functions.notification('info', 'ETA: You\'re not in the queue');
-                }
-            });
+        eta: function() {
+            var average = 4;
+            var currentsongmins = $('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text();
+            var currentplaceinqueue = $('.queue-position').text();
+            var eta = (currentplaceinqueue * average - average) + currentsongmins;
+            if (eta >= 0) {
+                functions.notification('info', 'ETA: Less than '+eta+' Minutes');
+            } else {
+                functions.notification('info', 'ETA: You\'re not in the queue');
+            }
         },
         who: function(username) {
             $.ajax({
                 type: 'GET',
-                url: 'https://api.dubtrack.fm/user/'+username,
+                url: 'https://api.dubtrack.fm/user/'+username+'/',
             }).done(function(r) {
 
                 var i = r.data;
@@ -911,8 +850,6 @@ if (!run) {
                 $('.INPUT.AFKMSG').hide();
                 $('.INPUT.CSS').hide();
                 $('.INPUT.AFK').hide();
-                $('.CONFIRM.UNMUTE').hide();
-                $('.CONFIRM.UNBAN').hide();
                 options.cmen = true;
             } else {
                 $('.INPUT.CMEN').hide();
@@ -946,8 +883,6 @@ if (!run) {
                 $('.INPUT.CMEN').hide();
                 $('.INPUT.BG').hide();
                 $('.INPUT.CSS').hide();
-                $('.CONFIRM.UNMUTE').hide();
-                $('.CONFIRM.UNBAN').hide();
                 options.afkmsg = true;
             } else {
                 $('.INPUT.AFKMSG').hide();
@@ -1075,12 +1010,12 @@ if (!run) {
                 setTimeout(function(){
                     $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
                     $('#toast-container').fadeToggle('slow');
-                    functions.ntfp(); 
+                    functions.ntfp();
                 }, 2000);
             } else {
                 $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
                 $('#toast-container').fadeToggle('slow');
-                functions.ntfp();   
+                functions.ntfp();
             }
         },
         ntfp: function() {
@@ -1094,10 +1029,61 @@ if (!run) {
             setTimeout(function() {
                 $('#toast-container').remove();
             }, 1000);
-        }
+        },
+        aj: function() {
+            //if (!options.autojoin) {
+            //    functions.on('.autojoin');
+            //    functions.storage('autojoin', 'true');
+            //    options.autojoin = true;
+            //} else {
+            //    functions.off('.autojoin');
+            //    functions.storage('autojoin', 'false');
+            //    options.autojoin = false;
+            //}
+            functions.notification('error', 'This Feature Is Currently Unavailable');
+        },
+        autojoin: function(e) {
+            if (options.autojoin && e.startTime < 5) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.dubtrack.fm/room/'+Dubtrack.room.model.get('_id')+'/',
+                }).done(function(e) {
+                    if (e.data.recycleDJ === false && $('.queue-position').text() !== "") {
+                        //$('.play-song-link').click();
+                    }
+                });
+            }
+        },
+        ace: function() {
+            functions.notification('error', 'This Feature Is Currently Unavailable');
+        },
+        acm: function() {
+            functions.notification('error', 'This Feature Is Currently Unavailable');
+        },
+        addToChat: function(e) {
+            $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text">'+e+'</div></li>');
+            functions.stb();
+        },
+ 	    userHasPerm: function() {
+ 		    return Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id);
+ 	    },
+ 	    hidebackground: function() {
+ 	        if (!options.hidebackground) {
+                functions.on('.hidebackground');
+                functions.storage('hidebackground', 'true');
+                options.hidebackground = true;
+                $('.backstretch').hide();
+                $('.CMSbg').hide();
+            } else {
+                functions.off('.hidebackground');
+                functions.storage('hidebackground', 'false');
+                options.hidebackground = false;
+                $('.backstretch').show();
+                $('.CMSbg').show();
+            }
+ 	    }
     };
     
-    functions.notification('warning', 'Please Wait For CMS To Load');
     functions.mainmenu();
     setTimeout(function() {
         if (Dubtrack.session.get('_id') === '5609dc356c09ec03001e7748') {
@@ -1105,6 +1091,12 @@ if (!run) {
         }
         if (localStorage.getItem('clearchat') === 'true') {
             functions.clearchat();
+        }
+        if (localStorage.getItem('autojoin') === 'true') {
+            functions.aj();
+        }
+        if (localStorage.getItem('hidebackground') === 'true') {
+            functions.hidebackground();
         }
         if (localStorage.getItem('afktoggle') === 'true') {
             functions.afktoggle();
@@ -1127,14 +1119,17 @@ if (!run) {
         if (localStorage.getItem('userudub') === 'true') {
             functions.userudub();
         }
-        if (localStorage.getItem('autovote') === 'true') {
+        if (localStorage.getItem('vote') === 'true') {
             functions.autovote();
+        }
+        if (localStorage.getItem('randomvote') === 'true') {
+            functions.randomautovote();
         }
         if (localStorage.getItem('css') === 'true') {
             functions.roomcss();
         }
         if (localStorage.getItem('delmsg') === 'true') {
-            functions.deletemsg();
+            functions.delmsgtoggle();
         }
         if (localStorage.getItem('cmen')) {
             functions.cmen();
@@ -1150,15 +1145,17 @@ if (!run) {
         Dubtrack.Events.bind('realtime:chat-message', functions.commands);
         Dubtrack.Events.bind('realtime:user-mute', functions.Muted);
         Dubtrack.Events.bind('realtime:user-unmute', functions.Unmuted);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.autojoin);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.vote);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.updateupdublist);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.updatedowndublist);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.updategrablist);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.songAdvance);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.autojoin);
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.updublist);
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
 
-        functions.etaclick();
         functions.hovertogglegrab();
         functions.hovertoggledowndub();
         functions.hovertoggleupdub();
@@ -1166,9 +1163,7 @@ if (!run) {
         functions.updatebg();
         functions.updateafkmsg();
         functions.updatecss();
-        setTimeout(function() {
-            functions.notification('success', 'CMS Has Successfully Loaded<br>Welcome '+Dubtrack.session.get('username')+'');
-        }, 5000);
+        functions.notification('success', 'CMS Has Successfully Loaded<br>'+version+'<br>Welcome '+Dubtrack.session.get('username')+'');
     }, 6000);
 } else {
     functions.notification('error', 'Sorry '+Dubtrack.session.get('username')+'<br>There Is Already A Version Of CMS Running On This Browser');
