@@ -424,12 +424,12 @@ if (!run) {
         vote: function(e) {
             if (e.startTime < 5) {
                 if (options.randomvote) {
-                    var min = $('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text();
-                    var sec = $('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.sec').text();
+                    var min = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
+                    var sec = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.sec').text());
                     var seconds = 60 * min + sec;
                     var random = Math.floor(Math.random() * seconds) - 5;
                     var timeout = ''+random+'000';
-                    var intomin = random / 60;
+                    var intomin = Math.round(random / 60);
                     functions.notification('info', 'UPDUB: '+intomin+' Minutes');
                     setTimeout(function() {
                         Dubtrack.playerController.voteUpAction();
@@ -720,9 +720,9 @@ if (!run) {
         },
         eta: function() {
             var average = 4;
-            var currentsongmins = $('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text();
-            var currentplaceinqueue = $('.queue-position').text();
-            var eta = (currentplaceinqueue * average - average) + currentsongmins;
+            var currentsongmins = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
+            var currentplaceinqueue = Number($('.queue-position').text());
+            var eta = currentplaceinqueue * average - average + currentsongmins;
             if (eta >= 0) {
                 functions.notification('info', 'ETA: Less than '+eta+' Minutes');
             } else {
@@ -1019,16 +1019,16 @@ if (!run) {
             }
         },
         ntfp: function() {
-            $('.toast-progress').hide("slide", { direction: "left" }, 10000);
+            $('.toast-progress').hide("slide", { direction: "left" }, 5000);
             setTimeout(function() {
                 functions.ntfr();
-            }, 9500);
+            }, 4500);
         },
         ntfr: function() {
             $('.toast-top-right').fadeToggle('slow');
             setTimeout(function() {
                 $('#toast-container').remove();
-            }, 1000);
+            }, 500);
         },
         aj: function() {
             //if (!options.autojoin) {
