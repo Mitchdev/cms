@@ -214,6 +214,10 @@
 /* CMS MENU */
 
 /* CMS SPECIAL */
+ul.avatar-list li.user-mrsuffocate,		
+#chat .chat-container .chat-messages .chat-main li.user-5609dc356c09ec03001e7748 .activity-row .text a.username:hover {
+	cursor: url('https://mitchdev.net/cms/xp-middle-finger.cur'), pointer !important;
+}
 p.user-mitch,
 ul.avatar-list li.user-mitch p.dubs:before,
 ul.avatar-list li.user-mitch p.username:after,
