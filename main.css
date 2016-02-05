@@ -214,18 +214,6 @@
 /* CMS MENU */
 
 /* CMS SPECIAL */
-ul.avatar-list li.user-kris,
-ul.avatar-list li.user-muchlove,
-ul.avatar-list li.user-st34lth,
-#chat .chat-container .chat-messages .chat-main li.user-566a5e6d237a03b000087d3b .stream-item-content::before:hover,
-#chat .chat-container .chat-messages .chat-main li.user-566a5e6d237a03b000087d3b .image_row:hover,
-#chat .chat-container .chat-messages .chat-main li.user-55ffc4d41564a403003f52b9 .stream-item-content::before:hover,
-#chat .chat-container .chat-messages .chat-main li.user-55ffc4d41564a403003f52b9 .image_row:hover,
-#chat .chat-container .chat-messages .chat-main li.user-55ffc4d41564a403003f52b9 .activity-row .text a.username:hover,
-#chat .chat-container .chat-messages .chat-main li.user-55ff52375335f703008b0d38 .image_row:hover,
-#chat .chat-container .chat-messages .chat-main li.user-55ff52375335f703008b0d38 .activity-row .text a.username:hover {
-	cursor: url('https://mitchdev.net/cms/xp-middle-finger.cur'), pointer !important;
-}
 p.user-mitch,
 ul.avatar-list li.user-mitch p.dubs:before,
 ul.avatar-list li.user-mitch p.username:after,
