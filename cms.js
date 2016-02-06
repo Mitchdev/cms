@@ -35,9 +35,9 @@ if (!run) {
         usergrab: false,
         workfade: false,
         lights: false,
-        delmsg: false,
+        cleardelmsg: false,
+        autoclearchat: false,
         clearchat: false,
-        cc: false,
         cmen: false,
         afkmsg: false,
         updubhover: false,
@@ -47,6 +47,7 @@ if (!run) {
         afktoggle: false,
         afkto: false,
         autojoin: false,
+        boothalert: false,
         hidebackground: false,
         snooze: false,
         currentVol: null,
@@ -131,15 +132,19 @@ if (!run) {
                                 '<p class="main_content_p">Autovote</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
-                            '<li onclick="functions.randomautovote();" class="main_content_li main_content_feature randomvote">',
+                            '<li onclick="functions.randomvote();" class="main_content_li main_content_feature randomvote">',
                                 '<p class="main_content_p">Random Autovote</p>',
+                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            '</li>',
+                            '<li onclick="functions.boothal();" class="main_content_li main_content_feature boothalert">',
+                                '<p class="main_content_p">Booth Alert</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
                             '<li onclick="functions.aj();" class="main_content_li main_content_feature autojoin">',
                                 '<p class="main_content_p">Auto Join</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
-                            '<li onclick="functions.clearchat();" class="main_content_li main_content_feature clearchat">',
+                            '<li onclick="functions.autoclearchat();" class="main_content_li main_content_feature clearchat">',
                                 '<p class="main_content_p">Auto Clear Chat</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
@@ -151,7 +156,7 @@ if (!run) {
                                 '<p class="main_content_p">Chat Mode</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
-                            '<li onclick="functions.delmsgtoggle();" class="main_content_li main_content_feature delmsgtoggle">',
+                            '<li onclick="functions.autocleardelmsg();" class="main_content_li main_content_feature autocleardelmsg">',
                                 '<p class="main_content_p">Hide Deleted Messages</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
@@ -184,16 +189,16 @@ if (!run) {
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
                             '<li onclick="functions.userudub();" class="main_content_li main_content_feature userudub">',
-                                '<p class="main_content_p">Up Dub Message</p>',
+                                '<p class="main_content_p">Updub Message</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
                             '<li onclick="functions.afkmsg();" class="main_content_li main_content_feature afkmsg">',
-                                '<p class="main_content_p">Custom Afk Message</p>',
+                                '<p class="main_content_p">Custom AFK Message</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Edit</span></p>',
                             '</li>',
                             '<div class="INPUT AFKMSG">',
                                 '<li>',
-                                    '<textarea class="input afk" placeholder="I am currently afk at the moment."></textarea>',
+                                    '<textarea class="input afk" placeholder="I am currently AFK at the moment."></textarea>',
                                     '<center class="edit">',
                                         '<span class="CMSconfirm" onclick="functions.afkmsgc();" style="float: left;">Confirm</span>',
                                         '<li class="afktoggle"><p onclick="functions.afktoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
@@ -207,7 +212,7 @@ if (!run) {
                             '</li>',
                             '<div class="INPUT CMEN">',
                                 '<li>',
-                                    '<textarea class="input cmen" placeholder="bill, bob, john, jeff"></textarea>',
+                                    '<textarea class="input cmen" placeholder="separate, keywords, by, commas"></textarea>',
                                     '<center class="edit">',
                                         '<span class="CMSconfirm" onclick="functions.cmenc();" style="float: left;">Confirm</span>',
                                         '<li class="cmentoggle"><p onclick="functions.cmentoggle();" class="main_content_off edt"><span class="CMSdisabled">Disabled</span></p></li>',
@@ -243,10 +248,14 @@ if (!run) {
             ].join('');
             var userddub = [
                 '<li onclick="functions.userddub();" class="main_content_li main_content_feature userddub">',
-                    '<p class="main_content_p">Down Dub Message</p>',
+                    '<p class="main_content_p">Downdub Message</p>',
                     '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                 '</li>'
             ].join('');
+            var css = '<link rel="stylesheet" type="text/css" href="https://mitchdev.net/cms/test.css">';
+ 	        var ac = '<div class="autocomplete" style="display: none;"></div>';
+            $('head').append(css);
+            $('.pusher-chat-widget-input').append(ac);
             setTimeout(function() {
                 $('.chat-main').append(welcome);
                 $(settingbtn).insertAfter('.chat-option-buttons-sound');
@@ -256,8 +265,8 @@ if (!run) {
                 }
             }, 5000);
             setTimeout(function() {
-                $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" onclick="functions.eta();" class="eta">ETA</span>');
-                $('.player-controller-container').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-left: .5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" onclick="functions.snooze();" class="snooze">SNOOZE</span>');
+                $('.player_sharing').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-right: 0.5rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" onclick="functions.eta();" class="eta">ETA</span>');
+                $('.player_sharing').append('<span style="display: inline-block;font-size: 1.4rem;top: -.2rem;position: relative;margin-right: 0rem;color: #878c8e;text-transform: uppercase;font-weight: 700;" onclick="functions.snooze();" class="snooze">SNOOZE</span>');
                 $(dtapi).insertAfter('#main-menu-left .navigate.room-active-link');
                 $(ebtn).insertAfter('#main-menu-left .navigate.lobby-link');
                 $(btn).insertAfter('.player_header .room-info-display');
@@ -269,7 +278,7 @@ if (!run) {
                 }, 6000);
             }, 1000);
         },
-        hovertoggledowndub: function() {
+        downdubhover: function() {
             $('.dubdown').hover(function() {
                 options.downdubhover = true;
                 if (options.downdubhover) {
@@ -293,7 +302,7 @@ if (!run) {
         updatedowndublist: function() {
             $('#user-downdub').remove();
         },
-        hovertoggleupdub: function() {
+        updubhover: function() {
             $('.dubup').hover(function() {
                 options.updubhover = true;
                 if (options.updubhover) {
@@ -317,7 +326,7 @@ if (!run) {
         updateupdublist: function() {
             $('#user-updub').remove();
         },
-        hovertogglegrab: function() {
+        grabhover: function() {
             $('.add-to-playlist-button').hover(function() {
                 options.grabhover = true;
                 if (options.grabhover) {
@@ -338,22 +347,22 @@ if (!run) {
         updategrablist: function() {
             $('#user-grab').remove();
         },
-        delmsgtoggle: function() {
-            if (!options.delmsg) {
-                functions.on('.delmsgtoggle');
-                options.delmsg = true;
-                functions.delmsg();
-                functions.storage('delmsg', 'true');
+        autocleardelmsg: function() {
+            if (!options.cleardelmsg) {
+                functions.enable('.autocleardelmsg');
+                options.cleardelmsg = true;
+                functions.cleardelmsg();
+                functions.storage('cleardelmsg', 'true');
             } else {
-                functions.off('.delmsgtoggle');
-                functions.storage('delmsg', 'false');
-                options.delmsg = false;
+                functions.disable('.autocleardelmsg');
+                functions.storage('cleardelmsg', 'false');
+                options.cleardelmsg = false;
                 $('.deleted-message').show();
             }
         },
-        delmsg: function() {
+        cleardelmsg: function() {
             setInterval(function() {
-                if (options.delmsg) {
+                if (options.cleardelmsg) {
                     $('.deleted-message').hide();
                 }
             }, 2000);
@@ -366,10 +375,10 @@ if (!run) {
                 $('head').append('<link class="CMSccss" href="'+text+'" rel="stylesheet" type="text/css">');
                 $('.INPUT.CSS').hide();
                 if(text.length < 50 && text.length !== 0 || text.length === 50) {
-                    functions.notification('info', 'Custom CSS Set To<br>'+text+'');
+                    functions.notification('info', 'Custom CSS set:<br>'+text+'');
                 } else if (text.length !== 0) {
                     var shorttext = $('.input.css').val().slice(0,50);
-                    functions.notification('info', 'Custom CSS Set To<br>'+shorttext+'...');
+                    functions.notification('info', 'Custom CSS set:<br>'+shorttext+'...');
                 }
             }
         },
@@ -393,10 +402,10 @@ if (!run) {
                 $('body').append('<div class="CMSbg" style="background: url('+text+');"></div>');
                 $('.INPUT.BG').hide();
                 if(text.length < 50 && text.length !== 0 || text.length === 50) {
-                    functions.notification('info', 'Custom Background Set To<br>'+text+'');
+                    functions.notification('info', 'Custom background set:<br>'+text+'');
                 } else if (text.length !== 0) {
                     var shorttext = $('.input.bg').val().slice(0,50);
-                    functions.notification('info', 'Custom Background Set To<br>'+shorttext+'...');
+                    functions.notification('info', 'Custom background set<br>'+shorttext+'...');
                 }
             }
         },
@@ -412,25 +421,44 @@ if (!run) {
                 options.inputbg = false;
             }
         },
-        on: function(theclass) {
+        enable: function(theclass) {
             $(theclass + ' .main_content_off').html('<span class="CMSenabled">Enabled</span>');
         },
-        off: function(theclass) {
+        disable: function(theclass) {
             $(theclass + ' .main_content_off').html('<span class="CMSdisabled">Disabled</span>');
         },
         storage: function(theclass,state) {
             localStorage.setItem(theclass,state);
         },
         vote: function(e) {
-            if (e.startTime < 5) {
+            if (e.startTime < 2) {
                 if (options.randomvote) {
                     var min = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
                     var sec = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.sec').text());
                     var seconds = 60 * min + sec;
-                    var random = Math.floor(Math.random() * seconds) - 5;
+                    var random = Math.floor(Math.random() * seconds) - 1;
                     var timeout = ''+random+'000';
-                    var intomin = Math.round(random / 60);
-                    functions.notification('info', 'UPDUB: '+intomin+' Minutes');
+                    var rounded = Math.round(random / 60 * 10);
+                    var intomin = rounded / 10;
+                    if (intomin % 1 !== 0) {
+                        var str = ''+intomin+'';
+                        var substr = str.split('.');
+                        var minute = ''+substr[0]+'';
+                        var second = ''+substr[1]+'0';
+                        if (second > 60) {
+                            var minu = Number(substr[0]) + 1;
+                            var seco = second - 60;
+                            if (substr[0] === 0) {
+                                functions.notification('info', 'Updub in '+seco+' seconds');
+                            } else {
+                                functions.notification('info', 'Updub in '+minu+' minutes and '+seco+' seconds');
+                            }
+                        } else {
+                            functions.notification('info', 'Updub in '+minute+' minutes and '+second+' seconds');
+                        }
+                    } else {
+                        functions.notification('info', 'Updub in '+intomin+' minutes');
+                    }
                     setTimeout(function() {
                         Dubtrack.playerController.voteUpAction();
                     }, timeout);
@@ -439,36 +467,36 @@ if (!run) {
                 }
             }
         },
-        randomautovote: function() {
+        randomvote: function() {
             if (!options.randomvote) {
                 options.randomvote = true;
                 functions.storage('randomvote','true');
-                functions.on('.randomvote');
+                functions.enable('.randomvote');
                 if (options.autovote) {
                     options.autovote = false;
                     functions.storage('vote','false');
-                    functions.off('.autovote');
+                    functions.disable('.autovote');
                 }
             } else {
                 options.randomvote = false;
                 functions.storage('randomvote','false');
-                functions.off('.randomvote');
+                functions.disable('.randomvote');
             }
         },
         autovote: function() {
             if (!options.autovote) {
                 options.autovote = true;
                 functions.storage('vote','true');
-                functions.on('.autovote');
+                functions.enable('.autovote');
                 if (options.randomvote) {
                     options.randomvote = false;
                     functions.storage('randomvote','false');
-                    functions.off('.randomvote');
+                    functions.disable('.randomvote');
                 }
             } else {
                 options.autovote = false;
                 functions.storage('vote','false');
-                functions.off('.autovote');
+                functions.disable('.autovote');
             }
         },
         workmode: function() {
@@ -476,12 +504,12 @@ if (!run) {
                 options.workfade = true;
                 options.workmode = true;
                 $('#main-room').fadeToggle('slow');
-                functions.on('.workmode');
+                functions.enable('.workmode');
             } else {
                 options.workfade = false;
                 options.workmode = false;
                 $('#main-room').fadeToggle('slow');
-                functions.off('.workmode');
+                functions.disable('.workmode');
             }
         },
         chatmode: function() {
@@ -489,12 +517,12 @@ if (!run) {
                 options.chatmode = true;
                 $('#main_player').fadeToggle('slow');
                 $('head').append('<link class="chatmodecss" rel="stylesheet" href="https://mitchdev.net/CMS/css/chatmode.css">');
-                functions.on('.chatmode');
+                functions.enable('.chatmode');
             } else {
                 options.chatmode = false;
                 $('#main_player').fadeToggle('slow');
                 $('.chatmodecss').remove();
-                functions.off('.chatmode');
+                functions.disable('.chatmode');
             }
         },
         roomcss: function() {
@@ -511,23 +539,23 @@ if (!run) {
                     $('head').append('<link class="CMScss" href="'+append[1]+'" rel="stylesheet" type="text/css">');
                 });
                 functions.storage('css','true');
-                functions.on('.roomcss');
+                functions.enable('.roomcss');
             } else {
                 options.roomcss = false;
                 $('.CMScss').remove();
                 functions.storage('css','false');
-                functions.off('.roomcss');
+                functions.disable('.roomcss');
             }
         },
         userjoin: function() {
             if(!options.userjoin) {
                 options.userjoin = true;
-                functions.on('.userjoin');
+                functions.enable('.userjoin');
                 functions.storage('userjoin','true');
                 Dubtrack.Events.bind('realtime:user-join', functions.Euserjoin);
             } else {
                 options.userjoin = false;
-                functions.off('.userjoin');
+                functions.disable('.userjoin');
                 functions.storage('userjoin','false');
                 Dubtrack.Events.unbind('realtime:user-join', functions.Euserjoin);
             }
@@ -538,12 +566,12 @@ if (!run) {
         userleave: function() {
             if(!options.userleave) {
                 options.userleave = true;
-                functions.on('.userleave');
+                functions.enable('.userleave');
                 functions.storage('userleave','true');
                 Dubtrack.Events.bind('realtime:user-leave', functions.Euserleave);
             } else {
                 options.userleave = false;
-                functions.off('.userleave');
+                functions.disable('.userleave');
                 functions.storage('userleave','false');
                 Dubtrack.Events.unbind('realtime:user-leave', functions.Euserleave);
             }
@@ -554,12 +582,12 @@ if (!run) {
         usergrab: function() {
             if (!options.usergrab) {
                 options.usergrab = true;
-                functions.on('.usergrab');
+                functions.enable('.usergrab');
                 functions.storage('usergrab', 'true');
                 Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.Eusergrab);
             } else {
                 options.usergrab = false;
-                functions.off('.usergrab');
+                functions.disable('.usergrab');
                 functions.storage('usergrab', 'false');
                 Dubtrack.Events.unbind('realtime:room_playlist-queue-update-grabs', functions.Eusergrab);
             }
@@ -570,12 +598,12 @@ if (!run) {
         userudub: function() {
             if(!options.userudub) {
                 options.userudub = true;
-                functions.on('.userudub');
+                functions.enable('.userudub');
                 functions.storage('userudub','true');
                 Dubtrack.Events.bind('realtime:room_playlist-dub', functions.Euserudub);
             } else {
                 options.userudub = false;
-                functions.off('.userudub');
+                functions.disable('.userudub');
                 functions.storage('userudub','false');
                 Dubtrack.Events.unbind('realtime:room_playlist-dub', functions.Euserudub);
             }
@@ -589,18 +617,18 @@ if (!run) {
             if (functions.userHasPerm()) {
                 if(!options.userddub) {
                     options.userddub = true;
-                    functions.on('.userddub');
+                    functions.enable('.userddub');
                     functions.storage('userddub','true');
                     Dubtrack.Events.bind('realtime:room_playlist-dub', functions.Euserddub);
                 } else {
                     options.userddub = false;
-                    functions.off('.userddub');
+                    functions.disable('.userddub');
                     functions.storage('userddub','false');
                     Dubtrack.Events.unbind('realtime:room_playlist-dub', functions.Euserddub);
                 }
             } else {
                 options.userddub = false;
-                functions.off('.userddub');
+                functions.disable('.userddub');
                 Dubtrack.Events.unbind('realtime:room_playlist-dub', functions.Euserddub);
             }
         },
@@ -625,34 +653,34 @@ if (!run) {
                 functions.addToChat('<span class="system-mute">@'+muted+' was unmuted by @'+username+'</span>');
             }
         },
-        clearchat: function() {
-            if (!options.clearchat) {
+        autoclearchat: function() {
+            if (!options.autoclearchat) {
+                options.autoclearchat = true;
+                functions.enable('.autoclearchat');
+                functions.storage('autoclearchat','true');
                 options.clearchat = true;
-                functions.on('.clearchat');
-                functions.storage('clearchat','true');
-                options.cc = true;
-                functions.cc();
+                functions.clearchat();
             } else {
+                options.autoclearchat = false;
+                functions.disable('.autoclearchat');
+                functions.storage('autoclearchat','false');
                 options.clearchat = false;
-                functions.off('.clearchat');
-                functions.storage('clearchat','false');
-                options.cc = false;
             }
         },
-        cc: function() {
-            if (options.cc) {
+        clearchat: function() {
+            if (options.clearchat) {
                 setInterval(function() {
                     $('.clearChatToggle').click();
                     setTimeout(function() {
-                        functions.notification('info', 'Chat Cleared Automatically By CMS');
+                        functions.notification('info', 'Chat cleared automatically by CMS');
                     }, 1000);
                 }, 1800000);
             }
         },
-        cdel: function(e) {
+        chatdel: function(e) {
             $(e).parent('li')[0].remove();
         },
-        stb: function() {
+        scrolltobottom: function() {
             $('#new-messages-counter').click();
         },
         commands: function(e) {
@@ -691,6 +719,8 @@ if (!run) {
                             '<br>',
                         '<span>/whoami - Displays your info</span>',
                             '<br>',
+                        '<span>/volume [number] - Set Volume</span>',
+                            '<br>',
                     '</li>'
                 ].join('');
                 $('.chat-main').append(commands);
@@ -700,19 +730,26 @@ if (!run) {
                 message.replace(/( [A-Za-z0-9_.]+)/g, function(str) {
                     var name = ''+str+'';
                     var username = name.substr(1);
-                    functions.who(username);
+                    functions.whois(username);
                 });
             }
             if (message.indexOf("/whois @") === 0 && id === user) {
                 message.replace(/(@[A-Za-z0-9_.]+)/g, function(str) {
                     var name = ''+str+''.replace("@", "");
                     var username = name.substr(1);
-                    functions.who(username);
+                    functions.whois(username);
+                });
+            }
+            if (message.indexOf("/volume ") === 0 && id === user) {
+                message.replace(/( [A-Za-z0-9_.]+)/g, function(number) {
+                    Dubtrack.room.player.setVolume(number);
+                    $('.ui-slider-handle').css('left',  ''+number+'px');
+                    $('.ui-slider-range').css('width', ''+number+'%');
                 });
             }
             if (message.indexOf("/whoami") >-1 && id === user) {
                 var username = Dubtrack.session.get('username');
-                functions.who(username);
+                functions.whois(username);
             }
             if (message.indexOf("/eta") >-1 && id === user) {
                 functions.eta();
@@ -720,128 +757,72 @@ if (!run) {
         },
         eta: function() {
             var average = 4;
-            var currentsongmins = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
-            var currentplaceinqueue = Number($('.queue-position').text());
-            var eta = currentplaceinqueue * average - average + currentsongmins;
-            if (eta >= 0) {
-                functions.notification('info', 'ETA: Less than '+eta+' Minutes');
+            var mins = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.min').text());
+            var sec = Number($('#player-controller div.left ul li.infoContainer.display-block div.currentTime span.sec').text());
+            var position = Number($('.queue-position').text());
+            var eta = position * average - average + mins;
+            if (eta >= 0 && eta !== 0) {
+                functions.notification('info', 'ETA: Less than '+eta+' minutes');
+            } else if (eta === 0) {
+                functions.notification('info', 'ETA: '+sec+' seconds');
             } else {
                 functions.notification('info', 'ETA: You\'re not in the queue');
             }
         },
-        who: function(username) {
+        whois: function(username) {
             $.ajax({
                 type: 'GET',
                 url: 'https://api.dubtrack.fm/user/'+username+'/',
-            }).done(function(r) {
-
-                var i = r.data;
-
-                var user = i.username;
-                var uuid = i._id;
-                var locale = i.userInfo.locale;
-                var cr = ''+i.created+'';
-                var created = cr.substr(0, cr.length-3);
-                var rrole = 'user';
-                var grole = 'user';
-                var dubs = Dubtrack.room.users.getDubs(''+uuid+'');
-
-                var d = new Date(created * 1000),
-                    yyyy = d.getFullYear(),
-                    mm = ('0' + (d.getMonth() + 1)).slice(-2),
-                    dd = ('0' + d.getDate()).slice(-2),
-                    hh = d.getHours(),
-                    h = hh,
-                    ampm = 'AM',
-                    min = ('0' + d.getMinutes()).slice(-2),
-                    time;
-                if (hh > 12) {
-                    h = hh - 12;
-                    ampm = 'PM';
-                } else if (hh === 12) {
-                    h = 12;
-                    ampm = 'PM';
-                } else if (hh === 0) {
-                    h = 12;
-                }
-                time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
-
-                if (Dubtrack.room.users.getIfOwner(''+uuid+'')) {
-                    rrole = 'co-owner';
-                } else if (Dubtrack.room.users.getIfManager(''+uuid+'')) {
-                    rrole = 'manager';
-                } else if (Dubtrack.room.users.getIfMod(''+uuid+'')) {
-                    rrole = 'mod';
-                } else if (Dubtrack.room.users.getIfVIP(''+uuid+'')) {
-                    rrole = 'vip';
-                } else if (Dubtrack.room.users.getIfResidentDJ(''+uuid+'')) {
-                    rrole = 'rdj';
-                }
-                if (Dubtrack.helpers.isDubtrackAdmin(''+uuid+'')) {
-                    grole = 'admin';
-                }
-                var whois = [
-                    '<li class="system">',
-                        '<div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div>',
-                            '<br>',
-                        '<span>WHO IS - '+user+'</span>',
-                            '<br>',
-                            '<br>',
-                        '<span>GLOBAL INFO</span>',
-                            '<br>',
-                        '<span>Username: '+user+'</span>',
-                            '<br>',
-                        '<span>Uuid: '+uuid+'</span>',
-                            '<br>',
-                        '<span>Created: '+time+'</span>',
-                            '<br>',
-                        '<span>Locale: '+locale+'</span>',
-                            '<br>',
-                        '<span>Role: '+grole+'</span>',
-                            '<br>',
-                            '<br>',
-                        '<span>ROOM INFO</span>',
-                            '<br>',
-                        '<span>Role: '+rrole+'</span>',
-                            '<br>',
-                        '<span>Dubs: '+dubs+'</span>',
-                            '<br>',
-                    '</li>'
-                ].join('');
-                $('.chat-main').append(whois);
-                functions.stb();
+            }).done(function(e) {
+                var id = e.data._id;
+                var locale = e.data.userInfo.locale;
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.dubtrack.fm/room/'+Dubtrack.room.model.get('_id')+'/users/'+id+'/',
+                }).done(function(e) {
+                    var songsinqueue = e.data.songsInQueue;
+                    var active = e.data.active;
+                    var dubs = e.data.dubs;
+                    var username = e.data._user.username;
+                    var cr = ''+e.data._user.created+'';
+                    var created = cr.substr(0, cr.length-3);
+                    var role = 'User';
+                    if (Dubtrack.room.users.getIfOwner(''+id+'')) {
+                        role = 'Co-Owner';
+                    } else if (Dubtrack.room.users.getIfManager(''+id+'')) {
+                        role = 'Manager';
+                    } else if (Dubtrack.room.users.getIfMod(''+id+'')) {
+                        role = 'Mod';
+                    } else if (Dubtrack.room.users.getIfVIP(''+id+'')) {
+                        role = 'Vip';
+                    } else if (Dubtrack.room.users.getIfResidentDJ(''+id+'')) {
+                        role = 'Rdj';
+                    }
+                    var grole = 'User';
+                    if (Dubtrack.helpers.isDubtrackAdmin(''+id+'')) {
+                        grole = 'Admin';
+                    }
+                    var d = new Date(created * 1000);
+                    var yyyy = d.getFullYear();
+                    var mm = ('0' + (d.getMonth() + 1)).slice(-2);
+                    var dd = ('0' + d.getDate()).slice(-2);
+                    var hh = d.getHours();
+                    var h = hh;
+                    var ampm = 'AM';
+                    var min = ('0' + d.getMinutes()).slice(-2);
+                    if (hh > 12) {
+                        h = hh - 12;
+                        ampm = 'PM';
+                    } else if (hh === 12) {
+                        h = 12;
+                        ampm = 'PM';
+                    } else if (hh === 0) {
+                        h = 12;
+                    }
+                    var time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
+                    functions.addToChat('<span>whois - '+username+'</span><br><br><span>GLOBAL INFO</span><br><span>Username: '+username+'</span><br><span>Uuid: '+id+'</span><br><span>Created: '+time+'</span><br><span>Locale: '+locale+'</span><br><span>Role: '+grole+'</span><br><br><span>ROOM INFO</span><br><span>In Room: '+active+'</span><br><span>Dubs: '+dubs+'</span><br><span>Songs Queued: '+songsinqueue+'</span><br><span>Role: '+role+'</span>');
+               });
             });
-        },
-        chatlog: function(e) {
-            if (Dubtrack.session.get('_id') === '55ff8bf7196f170300cc0b2a') {
-                var username = e.user.username;
-                var userid = e.user.userInfo.userid;
-                var msg = e.message;
-                var c = ''+e.time+'';
-                var cr = c.substr(0, c.length-3);
-                var d = new Date(cr * 1000),
-                    yyyy = d.getFullYear(),
-                    mm = ('0' + (d.getMonth() + 1)).slice(-2),
-                    dd = ('0' + d.getDate()).slice(-2),
-                    hh = d.getHours(),
-                    h = hh,
-                    ampm = 'AM',
-                    min = ('0' + d.getMinutes()).slice(-2),
-                    time;
-                if (hh > 12) {
-                    h = hh - 12;
-                    ampm = 'PM';
-                } else if (hh === 12) {
-                    h = 12;
-                    ampm = 'PM';
-                } else if (hh === 0) {
-                    h = 12;
-                }
-                time = yyyy+'/'+mm+'/'+dd+' - '+hh+':'+min+ampm;
-                console.info('%cNAME: '+username+' | ID: '+userid+' | TIME: '+time, 'font-weight: 600;'+'color: #aaaaac;');
-                console.log('%cMESSAGE: "'+msg+'"', 'font-size: 1.1em;');
-                console.log(' ');
-            }
         },
         cmen: function() {
             if (!options.cmen) {
@@ -861,7 +842,7 @@ if (!run) {
             if (text !== null) {
                 functions.storage('cmen',text);
                 $('.INPUT.CMEN').hide();
-                functions.notification('info', 'Custom Mentions Set To<br>'+text+'');
+                functions.notification('info', 'Custom mentions set:<br>'+text+'');
             }
         },
         cmench: function(e) {
@@ -894,7 +875,7 @@ if (!run) {
             if (text !== null) {
                 functions.storage('afkmsg',text);
                 $('.INPUT.AFKMSG').hide();
-                functions.notification('info', 'Afk Message Set To<br>'+text+'');
+                functions.notification('info', 'AFK message set:<br>'+text+'');
             }
         },
         afkch: function(e) {
@@ -949,21 +930,21 @@ if (!run) {
         afktoggle: function() {
             if (!options.afktoggle) {
                 options.afktoggle = true;
-                functions.on('.afktoggle');
+                functions.enable('.afktoggle');
             } else {
                 options.afktoggle = false;
-                functions.off('.afktoggle');
+                functions.disable('.afktoggle');
             }
         },
         cmentoggle: function() {
             if (!options.cmentoggle) {
                 options.cmentoggle = true;
                 functions.storage('cmentoggle','true');
-                functions.on('.cmentoggle');
+                functions.enable('.cmentoggle');
             } else {
                 options.cmentoggle = false;
                 functions.storage('cmentoggle','false');
-                functions.off('.cmentoggle');
+                functions.disable('.cmentoggle');
             }
         },
         newupdate: function(e) {
@@ -972,14 +953,12 @@ if (!run) {
             var id = '55ff8bf7196f170300cc0b2a';
             if (message.indexOf("/nu") >-1 && id === user) {
                 var msg = [
-                    '<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert">',
-                        '<div class="toast toast-error" style="display: block;">',
-                            '<div class="toast-progress" style="width: 100%;"></div>',
-                            '<button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button>',
+                    '<div id="nu" class="toast-top-right" style="position: fixed;display: none;" aria-live="polite" role="alert">',
+                        '<div class="toast toast-success" style="display: block;">',
                             '<div class="toast-message">New version of CMS!<br>Please Refresh To Update.</div>',
                         '</div>',
                     '</div>'
-                ].join(' ');
+                ].join('');
                 $('body').append(msg);
                 $('.toast-top-right').fadeToggle('slow');
                 Dubtrack.room.chat.mentionChatSound.play();
@@ -987,16 +966,18 @@ if (!run) {
         },
         snooze: function() {
             if (!options.snooze) {
-                options.currentVol = Dubtrack.room.player.player_volume_level;
+                options.currentVol = Number(Dubtrack.room.player.player_volume_level);
                 Dubtrack.room.player.setVolume(0);
                 options.snooze = true;
-                functions.notification('info', 'Snooze Enabled<br>Unmuting Next Song Automatically');
-            } else {
-                functions.notification('error', 'Snooze Already Enabled');
+                functions.notification('info', 'Snooze enabled<br>Sound muted until next song');
+            } else if (options.snooze) {
+                Dubtrack.room.player.setVolume(options.currentVol);
+                options.snooze = false;
+                functions.notification('info', 'Snooze disabled');
             }
         },
-        songAdvance: function(e) {
-            if (e.startTime < 5) {
+        songadvance: function(e) {
+            if (e.startTime < 2) {
                 if (options.snooze) {
                     Dubtrack.room.player.setVolume(options.currentVol);
                     options.snooze = false;
@@ -1005,60 +986,57 @@ if (!run) {
             }
         },
         notification: function(type, message) {
-            if ($('#toast-container').hasClass('toast-top-right')) {
-                functions.ntfr();
-                setTimeout(function(){
-                    $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
-                    $('#toast-container').fadeToggle('slow');
-                    functions.ntfp();
-                }, 2000);
-            } else {
-                $('body').append('<div id="toast-container" class="toast-top-right" style="display:none; top: 72px;" aria-live="polite" role="alert"><div class="toast toast-'+type+'" style="display: block;"><div class="toast-progress" style="width: 100%;"></div><button onclick="functions.ntfr();" type="button" class="toast-close-button" role="button">×</button><div class="toast-message">'+message+'</div></div></div>');
-                $('#toast-container').fadeToggle('slow');
-                functions.ntfp();
-            }
-        },
-        ntfp: function() {
-            $('.toast-progress').hide("slide", { direction: "left" }, 5000);
+            var id = Math.floor(Math.random() * 100);
+            var a = [
+                    '<div align="right" onclick="functions.ntfr('+id+');" id="'+id+'" class="toast-top-right" style="display: none;" aria-live="polite" role="alert">',
+                        '<div class="toast toast-'+type+'" style="display: block;">',
+                            '<div class="toast-progress" style="width: 100%;"></div>',
+                            '<button onclick="functions.ntfr('+id+');" type="button" class="toast-close-button" role="button">×</button>',
+                            '<div class="toast-message">'+message+'</div>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+            $('body').append(a);
+            $('#'+id+'').fadeToggle('slow');
             setTimeout(function() {
-                functions.ntfr();
-            }, 4500);
+                functions.ntfr(id);
+            }, 3500);
         },
-        ntfr: function() {
-            $('.toast-top-right').fadeToggle('slow');
+        ntfr: function(id) {
+            $('#'+id+'').fadeToggle('slow');
             setTimeout(function() {
-                $('#toast-container').remove();
+                $('#'+id+'').remove();
             }, 500);
         },
         aj: function() {
-            //if (!options.autojoin) {
-            //    functions.on('.autojoin');
-            //    functions.storage('autojoin', 'true');
-            //    options.autojoin = true;
-            //} else {
-            //    functions.off('.autojoin');
-            //    functions.storage('autojoin', 'false');
-            //    options.autojoin = false;
-            //}
-            functions.notification('error', 'This Feature Is Currently Unavailable');
+            if (!options.autojoin) {
+                functions.enable('.autojoin');
+                functions.storage('autojoin', 'true');
+                options.autojoin = true;
+            } else {
+                functions.disable('.autojoin');
+                functions.storage('autojoin', 'false');
+                options.autojoin = false;
+            }
         },
         autojoin: function(e) {
-            if (options.autojoin && e.startTime < 5) {
+            if (options.autojoin && e.startTime < 2) {
                 $.ajax({
                     type: 'GET',
                     url: 'https://api.dubtrack.fm/room/'+Dubtrack.room.model.get('_id')+'/',
                 }).done(function(e) {
                     if (e.data.recycleDJ === false && $('.queue-position').text() !== "") {
-                        //$('.play-song-link').click();
+                        Dubtrack.room.joinQueue();
+                        Dubtrack.app.browserView.hideBrowser();
                     }
                 });
             }
         },
         ace: function() {
-            functions.notification('error', 'This Feature Is Currently Unavailable');
+            functions.notification('error', 'This feature is currently unavailable');
         },
         acm: function() {
-            functions.notification('error', 'This Feature Is Currently Unavailable');
+            functions.notification('error', 'This feature is currently unavailable');
         },
         addToChat: function(e) {
             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text">'+e+'</div></li>');
@@ -1069,19 +1047,62 @@ if (!run) {
  	    },
  	    hidebackground: function() {
  	        if (!options.hidebackground) {
-                functions.on('.hidebackground');
+                functions.enable('.hidebackground');
                 functions.storage('hidebackground', 'true');
                 options.hidebackground = true;
                 $('.backstretch').hide();
                 $('.CMSbg').hide();
             } else {
-                functions.off('.hidebackground');
+                functions.disable('.hidebackground');
                 functions.storage('hidebackground', 'false');
                 options.hidebackground = false;
                 $('.backstretch').show();
                 $('.CMSbg').show();
             }
- 	    }
+ 	    },
+ 	    boothal: function() {
+ 	        if (!options.boothalert) {
+                functions.enable('.boothalert');
+                functions.storage('boothalert', 'true');
+                options.boothalert = true;
+            } else {
+                functions.disable('.boothalert');
+                functions.storage('boothalert', 'false');
+                options.boothalert = false;
+            }
+ 	    },
+ 	    boothalert: function(e) {
+ 	        if (e.startTime < 2) {
+ 	            var position = Number($('.queue-position').text());
+                if (position === 2 && options.boothalert) {
+                    setTimeout(function() {
+                        functions.notification('info', 'It\'s almost your turn to DJ');
+                        functions.addToChat('<span>It\'s almost your turn to DJ</span>');
+                        Dubtrack.room.chat.mentionChatSound.play();
+                    }, 5500);
+                }
+ 	        }
+ 	    },
+ 	    
+ 	    // AUTOCOMPLETE USERS //
+ 	    
+        autocompleteuser: function() {
+            setTimeout(function() {
+                Dubtrack.room.users.collection.models.forEach(function(e) {
+                    var user = e.attributes._user.username;
+                    var id = e.attributes._user._id;
+                    var append = [
+                        '<div class="autocompleteuser">',
+                            '<div class="autocompleteuser-image">',
+                                '<img src="https://api.dubtrack.fm/user/'+id+'/image">',
+                            '</div>',
+                            '<span class="autocompleteuser-name" id="'+user.toLowerCase()+'">@'+user.toLowerCase()+'</span>',
+                        '</div>'
+                    ].join('');
+                    $('.autocomplete').append(append);
+                });
+            }, 2000);
+        }
     };
     
     functions.mainmenu();
@@ -1089,8 +1110,8 @@ if (!run) {
         if (Dubtrack.session.get('_id') === '5609dc356c09ec03001e7748') {
             $('body').append('<div class="pizza" style="background: url(http://i.imgur.com/A0qhlG2.gif);"></div>');
         }
-        if (localStorage.getItem('clearchat') === 'true') {
-            functions.clearchat();
+        if (localStorage.getItem('autoclearchat') === 'true') {
+            functions.autoclearchat();
         }
         if (localStorage.getItem('autojoin') === 'true') {
             functions.aj();
@@ -1113,6 +1134,9 @@ if (!run) {
         if (localStorage.getItem('userddub') === 'true') {
             functions.userddub();
         }
+        if (localStorage.getItem('boothalert') === 'true') {
+            functions.boothal();
+        }
         if (localStorage.getItem('usergrab') === 'true') {
             functions.usergrab();
         }
@@ -1123,13 +1147,13 @@ if (!run) {
             functions.autovote();
         }
         if (localStorage.getItem('randomvote') === 'true') {
-            functions.randomautovote();
+            functions.randomvote();
         }
         if (localStorage.getItem('css') === 'true') {
             functions.roomcss();
         }
-        if (localStorage.getItem('delmsg') === 'true') {
-            functions.delmsgtoggle();
+        if (localStorage.getItem('cleardelmsg') === 'true') {
+            functions.autoclearcleardelmsg();
         }
         if (localStorage.getItem('cmen')) {
             functions.cmen();
@@ -1141,30 +1165,31 @@ if (!run) {
         Dubtrack.Events.bind('realtime:chat-message', functions.newupdate);
         Dubtrack.Events.bind('realtime:chat-message', functions.afkch);
         Dubtrack.Events.bind('realtime:chat-message', functions.cmench);
-        Dubtrack.Events.bind('realtime:chat-message', functions.chatlog);
         Dubtrack.Events.bind('realtime:chat-message', functions.commands);
         Dubtrack.Events.bind('realtime:user-mute', functions.Muted);
         Dubtrack.Events.bind('realtime:user-unmute', functions.Unmuted);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.boothalert);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.autojoin);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.vote);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.updateupdublist);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.updatedowndublist);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.updategrablist);
-        Dubtrack.Events.bind('realtime:room_playlist-update', functions.songAdvance);
+        Dubtrack.Events.bind('realtime:room_playlist-update', functions.songadvance);
         Dubtrack.Events.bind('realtime:room_playlist-update', functions.autojoin);
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.updublist);
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
-
-        functions.hovertogglegrab();
-        functions.hovertoggledowndub();
-        functions.hovertoggleupdub();
+        
+        functions.autocompleteuser();
+        functions.grabhover();
+        functions.downdubhover();
+        functions.updubhover();
         functions.updatecmen();
         functions.updatebg();
         functions.updateafkmsg();
         functions.updatecss();
-        functions.notification('success', 'CMS Has Successfully Loaded<br>'+version+'<br>Welcome '+Dubtrack.session.get('username')+'');
+        functions.notification('success', 'CMS loaded successfully.<br>'+version+'<br>Welcome '+Dubtrack.session.get('username')+'');
     }, 6000);
 } else {
-    functions.notification('error', 'Sorry '+Dubtrack.session.get('username')+'<br>There Is Already A Version Of CMS Running On This Browser');
+    functions.notification('error', 'Sorry '+Dubtrack.session.get('username')+'<br>CMS is already running');
 }
