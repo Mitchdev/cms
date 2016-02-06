@@ -282,5 +282,5 @@ ul.avatar-list li.user-mitch p.dubs:before {
 /* MOBILE */
 
 .snooze {
-	margin-right: 15px;
+	margin-right: 25px !important;
 }
