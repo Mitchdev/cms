@@ -18,8 +18,8 @@ with permission from the owners of the dubx project
 var run;
 if (!run) {
     run = true;
-    var motd = 'Updates Updates ( ͡° ͜ʖ ͡° )';
-    var version = 'Version - 11.9.0';
+    var motd = 'More Updates?';
+    var version = 'Version - 11.9.1';
     var options = {
         autovote: false,
         randomvote: false,
@@ -160,14 +160,6 @@ if (!run) {
                                 '<p class="main_content_p">Hide Deleted Messages</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
-                            //'<li onclick="functions.acm();" class="main_content_li main_content_feature acm">',
-                            //    '<p class="main_content_p">Auto Complete Mentions</p>',
-                            //    '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            //'</li>',
-                            //'<li onclick="functions.ace();" class="main_content_li main_content_feature ace">',
-                            //    '<p class="main_content_p">Auto Complete Emotes</p>',
-                            //    '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            //'</li>',
                             '<li onclick="functions.hidebackground();" class="main_content_li main_content_feature hidebackground">',
                                 '<p class="main_content_p">Hide Background</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
@@ -656,13 +648,13 @@ if (!run) {
         autoclearchat: function() {
             if (!options.autoclearchat) {
                 options.autoclearchat = true;
-                functions.enable('.autoclearchat');
+                functions.enable('.clearchat');
                 functions.storage('autoclearchat','true');
                 options.clearchat = true;
                 functions.clearchat();
             } else {
                 options.autoclearchat = false;
-                functions.disable('.autoclearchat');
+                functions.disable('.clearchat');
                 functions.storage('autoclearchat','false');
                 options.clearchat = false;
             }
@@ -1082,27 +1074,7 @@ if (!run) {
                     }, 5500);
                 }
  	        }
- 	    },
- 	    
- 	    // AUTOCOMPLETE USERS //
- 	    
-        autocompleteuser: function() {
-            setTimeout(function() {
-                Dubtrack.room.users.collection.models.forEach(function(e) {
-                    var user = e.attributes._user.username;
-                    var id = e.attributes._user._id;
-                    var append = [
-                        '<div class="autocompleteuser">',
-                            '<div class="autocompleteuser-image">',
-                                '<img src="https://api.dubtrack.fm/user/'+id+'/image">',
-                            '</div>',
-                            '<span class="autocompleteuser-name" id="'+user.toLowerCase()+'">@'+user.toLowerCase()+'</span>',
-                        '</div>'
-                    ].join('');
-                    $('.autocomplete').append(append);
-                });
-            }, 2000);
-        }
+ 	    }
     };
     
     functions.mainmenu();
@@ -1153,7 +1125,7 @@ if (!run) {
             functions.roomcss();
         }
         if (localStorage.getItem('cleardelmsg') === 'true') {
-            functions.autoclearcleardelmsg();
+            functions.autocleardelmsg();
         }
         if (localStorage.getItem('cmen')) {
             functions.cmen();
@@ -1180,7 +1152,6 @@ if (!run) {
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
         
-        //functions.autocompleteuser();
         functions.grabhover();
         functions.downdubhover();
         functions.updubhover();
