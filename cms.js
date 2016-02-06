@@ -19,7 +19,7 @@ var run;
 if (!run) {
     run = true;
     var motd = 'Updates Updates ( ͡° ͜ʖ ͡° )';
-    var version = 'Version - 11.8.9';
+    var version = 'Version - 11.9.0';
     var options = {
         autovote: false,
         randomvote: false,
@@ -160,14 +160,14 @@ if (!run) {
                                 '<p class="main_content_p">Hide Deleted Messages</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
                             '</li>',
-                            '<li onclick="functions.acm();" class="main_content_li main_content_feature acm">',
-                                '<p class="main_content_p">Auto Complete Mentions</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
-                            '<li onclick="functions.ace();" class="main_content_li main_content_feature ace">',
-                                '<p class="main_content_p">Auto Complete Emotes</p>',
-                                '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
-                            '</li>',
+                            //'<li onclick="functions.acm();" class="main_content_li main_content_feature acm">',
+                            //    '<p class="main_content_p">Auto Complete Mentions</p>',
+                            //    '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            //'</li>',
+                            //'<li onclick="functions.ace();" class="main_content_li main_content_feature ace">',
+                            //    '<p class="main_content_p">Auto Complete Emotes</p>',
+                            //    '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
+                            //'</li>',
                             '<li onclick="functions.hidebackground();" class="main_content_li main_content_feature hidebackground">',
                                 '<p class="main_content_p">Hide Background</p>',
                                 '<p class="main_content_off"><span class="CMSdisabled">Disabled</span></p>',
@@ -1180,7 +1180,7 @@ if (!run) {
         Dubtrack.Events.bind('realtime:room_playlist-dub', functions.downdublist);
         Dubtrack.Events.bind('realtime:room_playlist-queue-update-grabs', functions.grablist);
         
-        functions.autocompleteuser();
+        //functions.autocompleteuser();
         functions.grabhover();
         functions.downdubhover();
         functions.updubhover();
