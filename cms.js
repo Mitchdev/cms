@@ -18,8 +18,8 @@ with permission from the owners of the dubx project
 var run;
 if (!run) {
     run = true;
-    var motd = 'More Updates?';
-    var version = 'Version - 11.9.1';
+    var motd = 'Updates Updates ( ͡° ͜ʖ ͡° )';
+    var version = 'Version - 11.9.2';
     var options = {
         autovote: false,
         randomvote: false,
@@ -695,7 +695,6 @@ if (!run) {
                     '</li>'
                 ].join('');
                 $('.chat-main').append(help);
-                functions.stb();
             }
             if (message.indexOf('/commands') >-1 && id === user) {
                 var commands = [
@@ -716,7 +715,6 @@ if (!run) {
                     '</li>'
                 ].join('');
                 $('.chat-main').append(commands);
-                functions.stb();
             }
             if (message.indexOf("/whois ") === 0 && id === user) {
                 message.replace(/( [A-Za-z0-9_.]+)/g, function(str) {
@@ -1032,7 +1030,7 @@ if (!run) {
         },
         addToChat: function(e) {
             $('.chat-main').append('<li class="system"><div class="chatDelete" onclick="functions.cdel(this)"><span class="icon-close"></span></div><div class="text">'+e+'</div></li>');
-            functions.stb();
+            
         },
  	    userHasPerm: function() {
  		    return Dubtrack.room.users.getIfMod(Dubtrack.session.id) || Dubtrack.room.users.getIfManager(Dubtrack.session.id) || Dubtrack.room.users.getIfOwner(Dubtrack.session.id);
